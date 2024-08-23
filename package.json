@@ -1,0 +1,16 @@
+{
+  "name": "backul",
+  "version": "0.0.1",
+  "description": "Server Union Libertaria",
+  "main": "index.js",
+  "type": "module",
+  "author": "Augusto Villegas",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "mongoose": "^8.5.3",
+    "nodemon": "^3.1.4"
+  }
+}
