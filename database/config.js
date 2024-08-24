@@ -1,24 +1,18 @@
-import mongoose from 'mongoose';
-
-
+import mongoose from "mongoose";
 
 export const dbConnection = async() => {
+  try {
+    await mongoose.connect(process.env.MONGODB_CNN, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      useCreateIndex: true,
+      useFindAndModify: false,
+    });
 
-try {
+    console.log('Base de datos online');
 
-    await mongoose.connect( process.env.MONGODB_CNN, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-            useCreateIndex: true,
-            useFindAndModify: false
-    })
-
-    
-} catch (error) {
+  } catch (error) {
     console.log(error);
-    throw new Error('Error a la hora de iniciar la base de datos');
-}
-
-
-
+    throw new Error("Error a la hora de iniciar la base de datos");
+  }
 };
