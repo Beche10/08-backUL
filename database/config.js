@@ -5,7 +5,7 @@ export const dbConnection = async () => {
     await mongoose.connect(process.env.MONGODB_CNN, {    
     });
 
-    console.log("Base de datos online");
+    console.log("Database has been connected");
 
     } catch (error) {
     console.log(error);
