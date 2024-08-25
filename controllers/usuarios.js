@@ -25,13 +25,16 @@ export const usuariosPut = (req, res = response) => {
   });
 };
 
-export const usuariosPost = (req, res = response) => {
+export const usuariosPost = async (req, res = response) => {
  
   const body = req.body; 
+  const usuario = new Usuario( body );
+
+  await usuario.save();
  
   res.json({
     msg: "post Afiliados - controlador",
-    body
+    usuario
   });
 };
 
