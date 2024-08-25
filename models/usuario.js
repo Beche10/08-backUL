@@ -4,7 +4,7 @@ const UsuarioSchema = Schema({
   nombre: {
     type: String,
     required: [true, "El nombre es requerido."],
-    minlength: 2
+    minlength: 2,
   },
 
   dni: {
@@ -20,7 +20,7 @@ const UsuarioSchema = Schema({
     required: [true, "El correo es requerido."],
     unique: true,
   },
-  
+
   fechaNacimiento: {
     type: Date,
     required: true,
@@ -47,28 +47,35 @@ const UsuarioSchema = Schema({
   },
   provincia: {
     type: String,
-    required: function() {
-      return this.pais === 'ar';
+    required: function () {
+      return this.pais === "ar";
     },
   },
   departamento: {
     type: String,
-    required: function() {
-      return this.provincia === 'Catamarca';
+    required: function () {
+      return this.provincia === "Catamarca";
     },
   },
-  
+
   img: {
     type: String,
+  },
+
+  firma: {
+    type: String, // Ruta del archivo de firma en el servidor
+    required: true,
+  },
+
+  archivos: {
+    type: [String], // Un arreglo de cadenas para almacenar múltiples rutas de archivos
   },
 
   rol: {
     type: String,
     required: false,
-    enum: ["ADMIN_ROLE", "USER_ROLE"]
-  }
-
- 
+    enum: ["ADMIN_ROLE", "USER_ROLE"],
+  },
 });
 
-export const Usuario = model('Usuario', UsuarioSchema);
+export const Usuario = model("Usuario", UsuarioSchema);
