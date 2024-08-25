@@ -41,15 +41,32 @@ const UsuarioSchema = Schema({
     match: /^[0-9]+$/,
   },
 
+  pais: {
+    type: String,
+    required: true,
+  },
+  provincia: {
+    type: String,
+    required: function() {
+      return this.pais === 'ar';
+    },
+  },
+  departamento: {
+    type: String,
+    required: function() {
+      return this.provincia === 'Catamarca';
+    },
+  },
+  
   img: {
     type: String,
   },
 
   rol: {
     type: String,
-    required: true,
+    required: false,
     enum: ["ADMIN_ROLE", "USER_ROLE"]
-  },
+  }
 
  
 });
