@@ -33,9 +33,12 @@ const UsuarioSchema = Schema({
     maxlength: 50,
   },
 
-  password: {
+  celular: {
     type: String,
-    required: [true, "La contraseña es obligatoria."],
+    required: true,
+    minlength: 10,
+    maxlength: 15,
+    match: /^[0-9]+$/,
   },
 
   img: {
@@ -48,15 +51,7 @@ const UsuarioSchema = Schema({
     enum: ["ADMIN_ROLE", "USER_ROLE"]
   },
 
-  estado: {
-    type: Boolean,
-    default: true,
-  },
-
-  google: {
-    type: Boolean,
-    default: false,
-  },
+ 
 });
 
 export const Usuario = model('Usuario', UsuarioSchema);
