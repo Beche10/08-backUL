@@ -11,6 +11,12 @@ export const UsuarioSchema = Schema({
         type: String,
         required: [true, "El correo es requerido"],
         unique: true
+    },
+
+    password: {
+        type: String,
+        required: [true, "El correo es requerido"],
+        unique: true
     }
 
 });
