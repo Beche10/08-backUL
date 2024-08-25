@@ -27,14 +27,38 @@ export const usuariosPut = (req, res = response) => {
 
 export const usuariosPost = async (req, res = response) => {
  
-  const body = req.body; 
+  const { 
+    nombre, 
+    dni, 
+    correo, 
+    fechaNacimiento, 
+    domicilio,
+    celular,
+    pais,
+    provincia,
+    departamento,
+    img,
+    firma,
+    archivos
+  } = req.body; 
   const usuario = new Usuario( body );
 
   await usuario.save();
  
   res.json({
     msg: "post Afiliados - controlador",
-    usuario
+    nombre, 
+    dni, 
+    correo, 
+    fechaNacimiento, 
+    domicilio,
+    celular,
+    pais,
+    provincia,
+    departamento,
+    img,
+    firma,
+    archivos
   });
 };
 
