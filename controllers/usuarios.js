@@ -1,5 +1,5 @@
 import { response, request } from "express";
-import { Usuario } from "../models/usuario";
+import { Usuario } from "../models/usuario.js";
 
 
 

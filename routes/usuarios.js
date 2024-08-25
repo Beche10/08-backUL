@@ -1,14 +1,14 @@
 import { Router } from "express";
-import { afiliadosDelete, afiliadosGet, afiliadosPatch, afiliadosPost, afiliadosPut } from "../controllers/usuarios.js";
+import { usuariosDelete, usuariosGet, usuariosPatch, usuariosPost, usuariosPut } from "../controllers/usuarios.js";
 
 export const router = Router();
 
-router.get("/", afiliadosGet );
+router.get("/", usuariosGet );
 
-router.put("/:id", afiliadosPut );
+router.put("/:id", usuariosPut );
 
-router.post("/", afiliadosPost);
+router.post("/", usuariosPost );
 
-router.delete("/", afiliadosDelete );
+router.delete("/", usuariosDelete );
 
-router.patch("/", afiliadosPatch);
+router.patch("/", usuariosPatch );
