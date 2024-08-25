@@ -1,6 +1,9 @@
 import { response, request } from "express";
+import { Usuario } from "../models/usuario";
 
-export const afiliadosGet = (req = request, res = response) => {
+
+
+export const usuariosGet = (req = request, res = response) => {
 
   const { q, nombre, apiKey } = req.query;
 
@@ -12,7 +15,7 @@ export const afiliadosGet = (req = request, res = response) => {
   });
 };
 
-export const afiliadosPut = (req, res = response) => {
+export const usuariosPut = (req, res = response) => {
  
   const { id }  = req.params.id;
  
@@ -22,7 +25,7 @@ export const afiliadosPut = (req, res = response) => {
   });
 };
 
-export const afiliadosPost = (req, res = response) => {
+export const usuariosPost = (req, res = response) => {
  
   const body = req.body; 
  
@@ -32,13 +35,13 @@ export const afiliadosPost = (req, res = response) => {
   });
 };
 
-export const afiliadosDelete = (req, res = response) => {
+export const usuariosDelete = (req, res = response) => {
     res.json({
       msg: "delete Afiliados - controlador",
     });
   };
 
-  export const afiliadosPatch = (req, res = response) => {
+  export const usuariosPatch = (req, res = response) => {
     res.json({
       msg: "patch Afiliados - controlador",
     });
