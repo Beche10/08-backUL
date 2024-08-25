@@ -1,5 +1,7 @@
 import { response, request } from "express";
+import bcryptjs from 'bcryptjs';
 import { Usuario } from "../models/usuario.js";
+
 
 export const usuariosGet = (req = request, res = response) => {
   const { q, nombre, apiKey } = req.query;
@@ -51,6 +53,13 @@ export const usuariosPost = async (req, res = response) => {
     archivos,
   });
 
+  // Verificar si el correo existe
+      
+
+  // Encriptar contraseña
+
+
+  // Guardar en DB
   await usuario.save();
 
   res.json({
