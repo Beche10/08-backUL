@@ -1,12 +1,8 @@
 import { Router } from "express";
-import {
-  usuarioDelete,
-  usuarioGet,
-  usuarioPatch,
-  usuarioPost,
-  usuarioPut,
-} from "../controllers/usuario.js";
 import { check } from "express-validator";
+import { handleValidate } from "../middlewares/handleValidate.js";
+import { usuarioDelete, usuarioGet, usuarioPatch, usuarioPost, usuarioPut } from "../controllers/usuario.js";
+
 
 export const userRouter = Router();
 
@@ -19,6 +15,7 @@ userRouter.post("/",[
     check("password","El password debe tener al menos 6 carácateres.").isLength({ min: 6 }),
     check("correo", "El correo no es válido.").isEmail(),
     check("rol", "No es un rol válido.").isIn([ 'ADMIN_ROLE', 'USER_ROLE' ]),
+    handleValidate
   ],
   usuarioPost
 );
