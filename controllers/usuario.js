@@ -15,16 +15,21 @@ export const usuarioPut = (req, res = response) => {
 };
 
 export const usuarioPost = async (req, res = response) => {
-  const { nombre, dni, correo, fechaNacimiento, domicilio, celular } = req.body;
+  const { nombre, correo, password, rol } = req.body;
 
   const usuario = new Usuario({
     nombre,
-    dni,
     correo,
-    fechaNacimiento,
     domicilio,
     celular,
   });
+
+
+  // Verificar si el correo existe
+
+  
+  // Encriptar la contraseña
+
 
   // Guardar en DB
   await usuario.save();
