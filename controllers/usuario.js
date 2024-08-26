@@ -20,8 +20,8 @@ export const usuarioPost = async (req, res = response) => {
   const usuario = new Usuario({
     nombre,
     correo,
-    domicilio,
-    celular,
+    password,
+    rol
   });
 
 

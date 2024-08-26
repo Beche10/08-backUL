@@ -7,42 +7,30 @@ const UsuarioSchema = Schema({
     minlength: 2,
   },
 
-  dni: {
-    type: String,
-    required: true,
-    minlength: 7,
-    maxlength: 8,
-    match: /^[0-9]+$/,
-  },
-
   correo: {
     type: String,
     required: [true, "El correo es requerido."],
     unique: true,
   },
 
-  fechaNacimiento: {
-    type: Date,
-    required: true,
-  },
-
-  domicilio: {
+  password: {
     type: String,
-    required: true,
-    minlength: 5,
-    maxlength: 50,
-  },
-
-  celular: {
-    type: String,
-    required: true,
-    minlength: 10,
-    maxlength: 15,
-    match: /^[0-9]+$/,
+    required: [true, "La contraseña es obligatoria."],
   },
 
   img: {
     type: String,
+  },
+
+  rol: {
+    type: String,
+    required: true,
+    enum: ["ADMIN_ROLE", "USER_ROLE"],
+  },
+
+  estado: {
+    type: Boolean,
+    default: true,
   },
 });
 
