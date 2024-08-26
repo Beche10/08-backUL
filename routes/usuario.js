@@ -1,7 +1,11 @@
 import { Router } from "express";
 import { check } from "express-validator";
 import { handleValidate } from "../middlewares/handleValidate.js";
-import { emailExist, isRoleValid, isUserById } from "../helpers/dbValidators.js";
+import {
+  emailExist,
+  isRoleValid,
+  isUserById,
+} from "../helpers/dbValidators.js";
 import {
   usuarioDelete,
   usuarioGet,
@@ -14,11 +18,14 @@ export const userRouter = Router();
 
 userRouter.get("/", usuarioGet);
 
-userRouter.put(  "/:id", [
-  check("id", "No es un ID válido").isMongoId(), 
-  check('id').custom( isUserById ),
-  handleValidate]
-  , usuarioPut
+userRouter.put(
+  "/:id",
+  [
+    check("id", "No es un ID válido").isMongoId(),
+    check("id").custom(isUserById),
+    handleValidate,
+  ],
+  usuarioPut
 );
 
 userRouter.post(
