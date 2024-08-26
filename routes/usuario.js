@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { check } from "express-validator";
 import { handleValidate } from "../middlewares/handleValidate.js";
+import { isRoleValid } from "../helpers/dbValidators.js";
 import {
   usuarioDelete,
   usuarioGet,
@@ -8,7 +9,8 @@ import {
   usuarioPost,
   usuarioPut,
 } from "../controllers/usuario.js";
-import { Role } from "../models/role.js";
+
+
 
 export const userRouter = Router();
 
@@ -26,12 +28,7 @@ userRouter.post(
     ).isLength({ min: 6 }),
     check("correo", "El correo no es válido.").isEmail(),
     //check("rol", "No es un rol válido.").isIn([ 'ADMIN_ROLE', 'USER_ROLE' ]),
-    check("rol").custom(async (rol = "") => {
-      const existeRol = await Role.findOne({ rol });
-      if (!existeRol) {
-        throw new Error(`El rol ${rol} no está registrado en la DB.`);
-      }
-    }),
+    check("rol").custom( isRoleValid ),
     handleValidate,
   ],
   usuarioPost
