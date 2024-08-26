@@ -14,7 +14,7 @@ userRouter.post("/",[
     check("nombre", "El nombre es obligatorio.").not().isEmpty(),
     check("password","El password debe tener al menos 6 carácateres.").isLength({ min: 6 }),
     check("correo", "El correo no es válido.").isEmail(),
-    check("rol", "No es un rol válido.").isIn([ 'ADMIN_ROLE', 'USER_ROLE' ]),
+    //check("rol", "No es un rol válido.").isIn([ 'ADMIN_ROLE', 'USER_ROLE' ]),
     handleValidate
   ],
   usuarioPost
