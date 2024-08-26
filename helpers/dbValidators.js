@@ -8,10 +8,10 @@ export const isRoleValid = async (rol = "") => {
   }
 };
 
-export const emailExist = async ( correo = "" ) => {
+export const emailExist = async (correo = "") => {
   // Verificar si el correo existe
   const existeEmail = await Usuario.findOne({ correo });
   if (existeEmail) {
-   throw new Error(`El correo: ${ correo } ya está registrado.`)
+    throw new Error(`El correo: ${correo}, ya está registrado.`);
   }
 };
