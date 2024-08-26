@@ -12,8 +12,6 @@ export const emailExist = async ( correo = "" ) => {
   // Verificar si el correo existe
   const existeEmail = await Usuario.findOne({ correo });
   if (existeEmail) {
-    return res.status(400).json({
-      msg: "El correo ya está registrado.",
-    });
+   throw new Error(`El correo: ${ correo } ya está registrado.`)
   }
 };
