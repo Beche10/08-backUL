@@ -15,3 +15,11 @@ export const emailExist = async (correo = "") => {
     throw new Error(`El correo: ${correo}, ya está registrado.`);
   }
 };
+
+export const isUserById = async ( id ) => {
+  // Verificar si el id existe
+  const existeUsuario = await Usuario.findById({ id });
+  if ( !existeUsuario) {
+    throw new Error(`El ${id}, no existe.`);
+  }
+};
