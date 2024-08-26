@@ -2,14 +2,25 @@ import { response, request } from "express";
 import { Usuario } from "../models/usuario.js";
 import bcryptjs from "bcryptjs";
 
-
 export const usuarioGet = (req = request, res = response) => {
   res.json({
     msg: "get Usuario - controlador",
   });
 };
 
-export const usuarioPut = (req, res = response) => {
+export const usuarioPut = async (req, res = response) => {
+  const { id } = req.params;
+  const { password, google, ...resto } = req.body;
+
+  // TODO valida contra base de datos
+  if (password) {
+    // Encriptar la contraseña
+    const salt = bcryptjs.genSaltSync();
+    resto.password = bcryptjs.hashSync(password, salt);
+  }
+
+  const usuario = await Usuario.findByIdAndUpdate(id, resto);
+
   res.json({
     msg: "put Usuario - controlador",
     id,
@@ -17,8 +28,6 @@ export const usuarioPut = (req, res = response) => {
 };
 
 export const usuarioPost = async (req, res = response) => {
-  
-
   const { nombre, correo, password, rol } = req.body;
   const usuario = new Usuario({
     nombre,
@@ -26,8 +35,6 @@ export const usuarioPost = async (req, res = response) => {
     password,
     rol,
   });
-
-  
 
   // Encriptar la contraseña
   const salt = bcryptjs.genSaltSync();
