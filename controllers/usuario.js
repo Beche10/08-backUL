@@ -10,7 +10,7 @@ export const usuarioGet = (req = request, res = response) => {
 
 export const usuarioPut = async (req, res = response) => {
   const { id } = req.params;
-  const { password, google, ...resto } = req.body;
+  const { password, google, correo, ...resto } = req.body;
 
   // TODO valida contra base de datos
   if (password) {
@@ -23,7 +23,7 @@ export const usuarioPut = async (req, res = response) => {
 
   res.json({
     msg: "put Usuario - controlador",
-    id,
+    usuario,
   });
 };
 
