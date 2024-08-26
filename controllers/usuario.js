@@ -36,7 +36,7 @@ export const usuarioPost = async (req, res = response) => {
 
   res.json({
     msg: "post Usuario - controlador",
-    afiliado,
+    usuario,
   });
 };
 
