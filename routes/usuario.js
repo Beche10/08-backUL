@@ -1,14 +1,14 @@
 import { Router } from "express";
 import { usuarioDelete, usuarioGet, usuarioPatch, usuarioPost, usuarioPut } from "../controllers/usuario.js";
 
-export const router = Router();
+export const userRouter = Router();
 
-router.get("/", usuarioGet );
+userRouter.get("/", usuarioGet );
 
-router.put("/:id", usuarioPut );
+userRouter.put("/:id", usuarioPut );
 
-router.post("/", usuarioPost );
+userRouter.post("/", usuarioPost );
 
-router.delete("/", usuarioDelete );
+userRouter.delete("/", usuarioDelete );
 
-router.patch("/", usuarioPatch );
+userRouter.patch("/", usuarioPatch );
