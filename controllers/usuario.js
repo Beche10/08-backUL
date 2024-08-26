@@ -10,7 +10,7 @@ export const usuarioGet = (req = request, res = response) => {
 
 export const usuarioPut = async (req, res = response) => {
   const { id } = req.params;
-  const { password, google, correo, ...resto } = req.body;
+  const { _id, password, google, correo, ...resto } = req.body;
 
   // TODO valida contra base de datos
   if (password) {
