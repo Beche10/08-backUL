@@ -14,7 +14,11 @@ export const userRouter = Router();
 
 userRouter.get("/", usuarioGet);
 
-userRouter.put("/:id", usuarioPut);
+userRouter.put(  "/:id", [
+  check("id", "No es un ID válido").isMongoId(), 
+  handleValidate]
+  , usuarioPut
+);
 
 userRouter.post(
   "/",
