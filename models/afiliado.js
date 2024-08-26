@@ -1,6 +1,6 @@
 import { Schema, model } from "mongoose";
 
-const UsuarioSchema = Schema({
+const AfiliadoSchema = Schema({
   nombre: {
     type: String,
     required: [true, "El nombre es requerido."],
@@ -70,12 +70,6 @@ const UsuarioSchema = Schema({
   archivos: {
     type: [String], // Un arreglo de cadenas para almacenar múltiples rutas de archivos
   },
-
-  rol: {
-    type: String,
-    required: false,
-    enum: ["ADMIN_ROLE", "USER_ROLE"],
-  },
 });
 
-export const Usuario = model("Usuario", UsuarioSchema);
+export const Afiliado = model("Afiliado", AfiliadoSchema);

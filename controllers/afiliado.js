@@ -1,9 +1,7 @@
 import { response, request } from "express";
-import bcryptjs from 'bcryptjs';
-import { Usuario } from "../models/usuario.js";
+import { Afiliado } from "../models/afiliado.js";
 
-
-export const usuariosGet = (req = request, res = response) => {
+export const afiliadoGet = (req = request, res = response) => {
   const { q, nombre, apiKey } = req.query;
 
   res.json({
@@ -14,16 +12,15 @@ export const usuariosGet = (req = request, res = response) => {
   });
 };
 
-export const usuariosPut = (req, res = response) => {
-  const { id } = req.params.id;
-
+export const afiliadoPut = (req, res = response) => {
+  const { id } = req.params;
   res.json({
     msg: "put Afiliados - controlador",
     id,
   });
 };
 
-export const usuariosPost = async (req, res = response) => {
+export const afiliadoPost = async (req, res = response) => {
   const {
     nombre,
     dni,
@@ -38,7 +35,8 @@ export const usuariosPost = async (req, res = response) => {
     firma,
     archivos,
   } = req.body;
-  const usuario = new Usuario({
+
+  const afiliado = new Afiliado({ 
     nombre,
     dni,
     correo,
@@ -53,39 +51,22 @@ export const usuariosPost = async (req, res = response) => {
     archivos,
   });
 
-  // Verificar si el correo existe
-      
-
-  // Encriptar contraseña
-
-
   // Guardar en DB
-  await usuario.save();
+  await afiliado.save(); 
 
   res.json({
     msg: "post Afiliados - controlador",
-    nombre,
-    dni,
-    correo,
-    fechaNacimiento,
-    domicilio,
-    celular,
-    pais,
-    provincia,
-    departamento,
-    img,
-    firma,
-    archivos,
+    afiliado, 
   });
 };
 
-export const usuariosDelete = (req, res = response) => {
+export const afiliadoDelete = (req, res = response) => {
   res.json({
     msg: "delete Afiliados - controlador",
   });
 };
 
-export const usuariosPatch = (req, res = response) => {
+export const afiliadoPatch = (req, res = response) => {
   res.json({
     msg: "patch Afiliados - controlador",
   });
