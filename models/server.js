@@ -38,7 +38,9 @@ export class Server {
   }
 
   routes() {
+    // Ruta de afiliados
     this.app.use(this.afiliadosPath, afiliadoRouter );
+    // Ruta de usuarios
     this.app.use(this.usersPath, userRouter );
   }
 
