@@ -1,4 +1,5 @@
 import { Role } from "../models/role.js";
+import { Usuario } from "../models/usuario.js";
 
 export const isRoleValid = async (rol = "") => {
   const existeRol = await Role.findOne({ rol });
@@ -7,7 +8,7 @@ export const isRoleValid = async (rol = "") => {
   }
 };
 
-export const emailExist = async (email = "") => {
+export const emailExist = async ( correo = "" ) => {
   // Verificar si el correo existe
   const existeEmail = await Usuario.findOne({ correo });
   if (existeEmail) {
