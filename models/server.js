@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors";
-import { router } from "../routes/usuarios.js";
+import { router } from "../routes/afiliado.js";
 import { dbConnection } from "../database/config.js";
 
 export class Server {
