@@ -4,13 +4,12 @@ import { afiliadoRouter } from "../routes/afiliado.js";
 import { userRouter } from "../routes/usuario.js";
 import { dbConnection } from "../database/config.js";
 
-
 export class Server {
   constructor() {
     this.app = express();
     this.port = process.env.PORT;
     this.afiliadosPath = "/api/afiliados";
-    this.usersPath = '/api/users'; 
+    this.usersPath = "/api/users";
 
     //Conectar a base de datos
     this.conectarDB();
@@ -39,9 +38,9 @@ export class Server {
 
   routes() {
     // Ruta de afiliados
-    this.app.use(this.afiliadosPath, afiliadoRouter );
+    this.app.use(this.afiliadosPath, afiliadoRouter);
     // Ruta de usuarios
-    this.app.use(this.usersPath, userRouter );
+    this.app.use(this.usersPath, userRouter);
   }
 
   listen() {
