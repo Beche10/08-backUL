@@ -1,5 +1,6 @@
-import { response, request } from "express";
-import { Usuario } from "../models/usuario.js";
+import { response, request } from 'express';
+import { Usuario } from '../models/usuario.js';
+import bcryptjs from 'bcryptjs';
 
 export const usuarioGet = (req = request, res = response) => {
   res.json({
@@ -29,7 +30,8 @@ export const usuarioPost = async (req, res = response) => {
 
   
   // Encriptar la contraseña
-
+  const salt = bcryptjs.genSaltSync();
+  usuario.password = bcryptjs.hashSync( password, salt );
 
   // Guardar en DB
   await usuario.save();
