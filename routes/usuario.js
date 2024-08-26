@@ -10,19 +10,22 @@ import {
   usuarioPut,
 } from "../controllers/usuario.js";
 
-
 export const userRouter = Router();
 
 userRouter.get("/", usuarioGet);
 
 userRouter.put("/:id", usuarioPut);
 
-userRouter.post("/",
+userRouter.post(
+  "/",
   [
     check("nombre", "El nombre es obligatorio.").not().isEmpty(),
-    check("password","El password debe tener al menos 6 carácateres.").isLength({ min: 6 }),
-    check("correo").custom( emailExist ),
-    check("rol").custom( isRoleValid ),
+    check(
+      "password",
+      "El password debe tener al menos 6 carácateres."
+    ).isLength({ min: 6 }),
+    check("correo").custom(emailExist),
+    check("rol").custom(isRoleValid),
     handleValidate,
   ],
   usuarioPost
