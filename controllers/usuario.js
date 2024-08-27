@@ -57,9 +57,11 @@ export const usuarioPost = async (req, res = response) => {
   });
 };
 
-export const usuarioDelete = (req, res = response) => {
+export const usuarioDelete = async (req, res = response) => {
+  const { id } = req.params;
+
   res.json({
-    msg: "delete Usuario - controlador",
+    id,
   });
 };
 

@@ -44,6 +44,14 @@ userRouter.post(
   usuarioPost
 );
 
-userRouter.delete("/:id", usuarioDelete);
+userRouter.delete(
+  "/:id",
+  [
+    check("id", "No es un ID válido").isMongoId(),
+    check("id").custom(isUserById),
+    handleValidate,
+  ],
+  usuarioDelete
+);
 
 userRouter.patch("/", usuarioPatch);
