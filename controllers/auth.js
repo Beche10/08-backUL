@@ -1,5 +1,10 @@
 import { response, request } from 'express';
 
-const login = (req = request, res = request) => {
+export const login = (req = request, res = request) => {
+
+
+    res.json({
+        msg: "Login OK"
+    })
 
 };
