@@ -24,8 +24,11 @@ export const login = async (req = request, res = response) => {
 
     // Verificar la contraseña
     const validPassword = bcryptjs.compareSync( password, usuario.password )
-
-
+    if(!validPassword) {
+        return res.status(400).json({
+            msg: "Usuario / Password no son correctos."
+        })
+    }
 
     // Generar el JWT
 
