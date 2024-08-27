@@ -15,9 +15,14 @@ export const login = async (req = request, res = response) => {
     }
 
     // SI el usuario está activo 
-
+    if( !usuario.estado ) {
+        return res.status(400).json({
+            msg: "Usuario / Password no son correctos."
+        })
+    }
 
     // Verificar la contraseña
+    
 
 
 
