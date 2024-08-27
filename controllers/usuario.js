@@ -62,10 +62,12 @@ export const usuarioDelete = async (req, res = response) => {
 
   // Borrar cambiando estado
   const usuario = await Usuario.findByIdAndUpdate(id, { estado: false });
+  const usuarioAutenticado = req.usuario;
 
   res.json({
     msg: "El usuario ha sido eliminado con éxito.",
     usuario,
+    usuarioAutenticado,
   });
 };
 
