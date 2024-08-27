@@ -11,7 +11,9 @@ export const validateJWT = (req = request, res = response, next) => {
   }
 
   try {
-    jwt.verify(token, process.env.SECRETORPRIVATEKEY);
+    const { uid } = jwt.verify(token, process.env.SECRETORPRIVATEKEY);
+
+    req.uid = uid;
 
     next();
   } catch (error) {
