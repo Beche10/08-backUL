@@ -44,6 +44,6 @@ userRouter.post(
   usuarioPost
 );
 
-userRouter.delete("/", usuarioDelete);
+userRouter.delete("/:id", usuarioDelete);
 
 userRouter.patch("/", usuarioPatch);
