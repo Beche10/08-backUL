@@ -1,5 +1,6 @@
 import { response, request } from "express";
 import { Usuario } from "../models/usuario.js";
+import bcryptjs from 'bcryptjs';
 
 export const login = async (req = request, res = response) => {
   const { correo, password } = req.body;
@@ -22,7 +23,7 @@ export const login = async (req = request, res = response) => {
     }
 
     // Verificar la contraseña
-    
+    const validPassword = bcryptjs.compareSync( password, usuario.password )
 
 
 
