@@ -8,7 +8,11 @@ export const usuarioGet = async (req = request, res = response) => {
     .skip(Number(desde))
     .limit(Number(limite));
 
+  // Total de registros
+  const total = await Usuario.countDocuments();
+
   res.json({
+    total,
     usuarios,
   });
 };
