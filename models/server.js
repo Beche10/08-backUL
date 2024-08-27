@@ -3,6 +3,7 @@ import cors from "cors";
 import { afiliadoRouter } from "../routes/afiliado.js";
 import { userRouter } from "../routes/usuario.js";
 import { dbConnection } from "../database/config.js";
+import { auth } from "../routes/auth.js";
 
 export class Server {
   constructor() {
@@ -10,6 +11,7 @@ export class Server {
     this.port = process.env.PORT;
     this.afiliadosPath = "/api/afiliados";
     this.usersPath = "/api/users";
+    this.authPath = "/api/auth";
 
     //Conectar a base de datos
     this.conectarDB();
@@ -37,6 +39,8 @@ export class Server {
   }
 
   routes() {
+    // Ruta de Autenticacion 
+    this.app.use(this.authPath, auth)
     // Ruta de afiliados
     this.app.use(this.afiliadosPath, afiliadoRouter);
     // Ruta de usuarios
