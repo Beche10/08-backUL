@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { check } from "express-validator";
 import { handleValidate } from "../middlewares/handleValidate.js";
+import { validateJWT } from "../middlewares/validateJWT.js";
 import {
   emailExist,
   isRoleValid,
@@ -13,6 +14,7 @@ import {
   usuarioPost,
   usuarioPut,
 } from "../controllers/usuario.js";
+
 
 export const userRouter = Router();
 
@@ -47,6 +49,7 @@ userRouter.post(
 userRouter.delete(
   "/:id",
   [
+    validateJWT,
     check("id", "No es un ID válido").isMongoId(),
     check("id").custom(isUserById),
     handleValidate,

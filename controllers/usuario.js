@@ -64,7 +64,7 @@ export const usuarioDelete = async (req, res = response) => {
   const usuario = await Usuario.findByIdAndUpdate( id, { estado: false } );
 
   res.json({
-    msg: 'El usuario ha sido borrado con éxito.',
+    msg: 'El usuario ha sido eliminado con éxito.',
     usuario
   });
 };
