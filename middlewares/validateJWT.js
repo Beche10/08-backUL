@@ -11,6 +11,8 @@ export const validateJWT = (req = request, res = response, next) => {
   }
 
   try {
+    jwt.verify(token, process.env.SECRETORPRIVATEKEY);
+
     next();
   } catch (error) {
     console.log(error);
