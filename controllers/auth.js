@@ -32,13 +32,12 @@ export const login = async (req = request, res = response) => {
     }
 
     // Generar el JWT
-    const token = await generateJWT(usuario.id);
+    const token = await generateJWT( usuario.id );
 
 
     res.json({
-      msg: "Login OK",
-      correo,
-      password,
+      usuario,
+      token,
     });
   } catch (error) {
     console.log(error);
