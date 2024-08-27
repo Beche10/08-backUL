@@ -23,6 +23,7 @@ userRouter.put(
   [
     check("id", "No es un ID válido").isMongoId(),
     check("id").custom(isUserById),
+    check("rol").custom(isRoleValid),
     handleValidate,
   ],
   usuarioPut

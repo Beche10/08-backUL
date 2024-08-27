@@ -2,9 +2,14 @@ import { response, request } from "express";
 import { Usuario } from "../models/usuario.js";
 import bcryptjs from "bcryptjs";
 
-export const usuarioGet = (req = request, res = response) => {
+export const usuarioGet = async (req = request, res = response) => {
+  const { limite = 5, desde = 0 } = req.query;
+  const usuarios = await Usuario.find()
+    .skip(Number(desde))
+    .limit(Number(limite));
+
   res.json({
-    msg: "get Usuario - controlador",
+    usuarios,
   });
 };
 
@@ -22,7 +27,6 @@ export const usuarioPut = async (req, res = response) => {
   const usuario = await Usuario.findByIdAndUpdate(id, resto);
 
   res.json({
-    msg: "put Usuario - controlador",
     usuario,
   });
 };
