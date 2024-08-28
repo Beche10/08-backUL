@@ -3,10 +3,18 @@ import { check } from "express-validator";
 import { handleValidate } from "../middlewares/handleValidate.js";
 import { validateJWT } from "../middlewares/validateJWT.js";
 import { isAdminRole, multiRole } from "../middlewares/validateROLE.js";
-import { emailExist, isRoleValid, isUserById } from "../helpers/dbValidators.js";
-import { usuarioDelete, usuarioGet, usuarioPatch, usuarioPost, usuarioPut } from "../controllers/usuario.js";
-
-
+import {
+  emailExist,
+  isRoleValid,
+  isUserById,
+} from "../helpers/dbValidators.js";
+import {
+  usuarioDelete,
+  usuarioGet,
+  usuarioPatch,
+  usuarioPost,
+  usuarioPut,
+} from "../controllers/usuario.js";
 
 export const userRouter = Router();
 
@@ -43,7 +51,7 @@ userRouter.delete(
   [
     validateJWT,
     //isAdminRole, // Middleware para forzar permiso de ADMIN.
-    multiRole('ADMIN_ROLE', 'NOSE_ROLE'),
+    multiRole("ADMIN_ROLE", "NOSE_ROLE"),
     check("id", "No es un ID válido").isMongoId(),
     check("id").custom(isUserById),
     handleValidate,

@@ -28,7 +28,7 @@ export const multiRole = (...roles) => {
 
     if (!roles.includes(req.usuario.rol)) {
       return res.status(401).json({
-        msg: `El servicio requiere uno de estos roles ${ roles }`,
+        msg: `El servicio requiere uno de estos roles ${roles}`,
       });
     }
 
