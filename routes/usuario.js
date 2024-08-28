@@ -2,7 +2,7 @@ import { Router } from "express";
 import { check } from "express-validator";
 import { handleValidate } from "../middlewares/handleValidate.js";
 import { validateJWT } from "../middlewares/validateJWT.js";
-import { isAdminRole } from "../middlewares/validateROLE.js";
+import { isAdminRole, multiRole } from "../middlewares/validateROLE.js";
 import { emailExist, isRoleValid, isUserById } from "../helpers/dbValidators.js";
 import { usuarioDelete, usuarioGet, usuarioPatch, usuarioPost, usuarioPut } from "../controllers/usuario.js";
 
@@ -42,7 +42,8 @@ userRouter.delete(
   "/:id",
   [
     validateJWT,
-    isAdminRole,
+    //isAdminRole,
+    multiRole('ADMIN_ROLE', 'NOSE_ROLE'),
     check("id", "No es un ID válido").isMongoId(),
     check("id").custom(isUserById),
     handleValidate,

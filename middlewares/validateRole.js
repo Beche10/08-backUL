@@ -18,7 +18,7 @@ export const isAdminRole = (req = request, res = response, next) => {
   next();
 };
 
-const multiRole = (...roles) => {
+export const multiRole = (...roles) => {
   return (req, res = response, next) => {
     if (!req.usuario) {
       return res.status(500).json({
