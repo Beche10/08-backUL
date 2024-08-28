@@ -41,8 +41,8 @@ userRouter.post(
 userRouter.delete(
   "/:id",
   [
-    isAdminRole,
     validateJWT,
+    isAdminRole,
     check("id", "No es un ID válido").isMongoId(),
     check("id").custom(isUserById),
     handleValidate,
