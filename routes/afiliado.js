@@ -1,14 +1,28 @@
 import { Router } from "express";
-import { afiliadoDelete, afiliadoGet, afiliadoPatch, afiliadoPost, afiliadoPut } from "../controllers/afiliado.js";
 
 export const afiliadoRouter = Router();
 
-afiliadoRouter.get("/", afiliadoGet );
+// Obtener todos los afiliados - Privado
+afiliadoRouter.get("/", () => {
+  res.json("get");
+});
 
-afiliadoRouter.put("/:id", afiliadoPut );
+// Obtener afiliados especificos - Privado
+afiliadoRouter.get("/:id", () => {
+  res.json("get - id");
+});
 
-afiliadoRouter.post("/", afiliadoPost );
+// Crear afiliados - Publico
+afiliadoRouter.post("/", () => {
+  res.json("post");
+});
 
-afiliadoRouter.delete("/", afiliadoDelete );
+// Actualizar por ID - Admin
+afiliadoRouter.put("/:id", () => {
+  res.json("put");
+});
 
-afiliadoRouter.patch("/", afiliadoPatch );
+// Borrar un afiliado - Admin
+afiliadoRouter.delete("/:id", () => {
+    res.json("put");
+  });
