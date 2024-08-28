@@ -8,7 +8,7 @@ const AfiliadoSchema = Schema({
   },
 
   dni: {
-    type: String,
+    type: Number,
     required: true,
     minlength: 7,
     maxlength: 8,
