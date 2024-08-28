@@ -1,14 +1,10 @@
 import { response, request } from "express";
 import { Afiliado } from "../models/afiliado.js";
 
+// Obtener todas las categorias
 export const afiliadoGet = (req = request, res = response) => {
-  const { q, nombre, apiKey } = req.query;
-
   res.json({
     msg: "get Afiliados - controlador",
-    q,
-    nombre,
-    apiKey,
   });
 };
 
@@ -36,7 +32,7 @@ export const afiliadoPost = async (req, res = response) => {
     archivos,
   } = req.body;
 
-  const afiliado = new Afiliado({ 
+  const afiliado = new Afiliado({
     nombre,
     dni,
     correo,
@@ -52,11 +48,11 @@ export const afiliadoPost = async (req, res = response) => {
   });
 
   // Guardar en DB
-  await afiliado.save(); 
+  await afiliado.save();
 
   res.json({
     msg: "post Afiliados - controlador",
-    afiliado, 
+    afiliado,
   });
 };
 
