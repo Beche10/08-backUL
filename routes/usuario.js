@@ -2,19 +2,10 @@ import { Router } from "express";
 import { check } from "express-validator";
 import { handleValidate } from "../middlewares/handleValidate.js";
 import { validateJWT } from "../middlewares/validateJWT.js";
-import {
-  emailExist,
-  isRoleValid,
-  isUserById,
-} from "../helpers/dbValidators.js";
-import {
-  usuarioDelete,
-  usuarioGet,
-  usuarioPatch,
-  usuarioPost,
-  usuarioPut,
-} from "../controllers/usuario.js";
 import { isAdminRole } from "../middlewares/validateROLE.js";
+import { emailExist, isRoleValid, isUserById } from "../helpers/dbValidators.js";
+import { usuarioDelete, usuarioGet, usuarioPatch, usuarioPost, usuarioPut } from "../controllers/usuario.js";
+
 
 
 export const userRouter = Router();
