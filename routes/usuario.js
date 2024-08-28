@@ -42,7 +42,7 @@ userRouter.delete(
   "/:id",
   [
     validateJWT,
-    //isAdminRole,
+    //isAdminRole, // Middleware para forzar permiso de ADMIN.
     multiRole('ADMIN_ROLE', 'NOSE_ROLE'),
     check("id", "No es un ID válido").isMongoId(),
     check("id").custom(isUserById),
