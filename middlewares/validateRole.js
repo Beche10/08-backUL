@@ -1,13 +1,19 @@
 import { request, response } from "express";
 
+export const isAdminRole = (req = request, res = response, next) => {
+  if (!req.usuario) {
+    return res.status(500).json({
+      msg: "Se quiere verificar el role sin validar el token.",
+    });
+  }
 
+ const { rol, nombre } = req.usuario;
 
-export const isAdminRole = ( req = request, res = response, next ) => {
+ if ( rol !== 'ADMIN_ROLE' ) {
+    return res.status(401).json({
+        msg: `${}`
+    })
+ }
 
-    
-
-
-
-
-    next();
-}
+  next();
+};
