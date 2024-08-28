@@ -1,7 +1,7 @@
 import { response, request } from "express";
 import { Afiliado } from "../models/afiliado.js";
 
-// Obtener todas las categorias
+
 export const afiliadoGet = (req = request, res = response) => {
   res.json({
     msg: "get Afiliados - controlador",
