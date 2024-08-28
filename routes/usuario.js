@@ -14,6 +14,7 @@ import {
   usuarioPost,
   usuarioPut,
 } from "../controllers/usuario.js";
+import { isAdminRole } from "../middlewares/validateROLE.js";
 
 
 export const userRouter = Router();
@@ -49,6 +50,7 @@ userRouter.post(
 userRouter.delete(
   "/:id",
   [
+    isAdminRole,
     validateJWT,
     check("id", "No es un ID válido").isMongoId(),
     check("id").custom(isUserById),
