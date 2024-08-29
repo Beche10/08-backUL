@@ -17,6 +17,7 @@ export const afiliadoPut = (req, res = response) => {
 };
 
 export const afiliadoPost = async (req, res = response) => {
+    
   const {
     nombre,
     dni,
@@ -31,6 +32,8 @@ export const afiliadoPost = async (req, res = response) => {
     firma,
     archivos,
   } = req.body;
+
+  const afiliadoDB = await Afiliado.findOne({ dni });
 
   const afiliado = new Afiliado({
     nombre,
