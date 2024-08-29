@@ -55,7 +55,7 @@ export const afiliadoPost = async (req, res = response) => {
   // Guardar en DB
   await afiliado.save();
 
-  res.json({
+  res.status(201).json({
     msg: "post Afiliados - controlador",
     afiliado,
   });
