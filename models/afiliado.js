@@ -77,11 +77,7 @@ const AfiliadoSchema = new Schema(
         message: "El departamento es requerido para la provincia de Catamarca.",
       },
     },
-
-    img: {
-      type: String,
-    },
-
+    
     firma: {
       type: String, // Ruta del archivo de firma en el servidor
       required: [true, "La firma es requerida."],

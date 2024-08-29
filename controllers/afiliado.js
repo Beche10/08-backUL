@@ -16,6 +16,10 @@ export const afiliadoPut = (req, res = response) => {
   });
 };
 
+
+
+
+
 export const afiliadoPost = async (req, res = response) => {
     
   const {
@@ -34,6 +38,14 @@ export const afiliadoPost = async (req, res = response) => {
   } = req.body;
 
   const afiliadoDB = await Afiliado.findOne({ dni });
+
+  if(!categoriaDB) {
+    return res.status(400).json({
+      msg: `El usuario con dni: ${ dni } ya se encuentra registrado.`
+    })
+  }
+
+  // Generar la data a guardar
 
   const afiliado = new Afiliado({
     nombre,
@@ -58,6 +70,14 @@ export const afiliadoPost = async (req, res = response) => {
     afiliado,
   });
 };
+
+
+
+
+
+
+
+
 
 export const afiliadoDelete = (req, res = response) => {
   res.json({
