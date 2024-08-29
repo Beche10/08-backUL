@@ -14,9 +14,7 @@ afiliadoRouter.get("/:id", (req, res) => {
 });
 
 // Crear afiliados - Publico
-afiliadoRouter.post("/", (req, res) => {
-  res.json("post");
-}, afiliadoPost);
+afiliadoRouter.post("/", afiliadoPost);
 
 // Actualizar por ID - Admin
 afiliadoRouter.put("/:id", (req, res) => {
