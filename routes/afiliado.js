@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { afiliadoPost } from "../controllers/afiliado.js";
 
 export const afiliadoRouter = Router();
 
@@ -15,7 +16,7 @@ afiliadoRouter.get("/:id", (req, res) => {
 // Crear afiliados - Publico
 afiliadoRouter.post("/", (req, res) => {
   res.json("post");
-});
+}, afiliadoPost);
 
 // Actualizar por ID - Admin
 afiliadoRouter.put("/:id", (req, res) => {
