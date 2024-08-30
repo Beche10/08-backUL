@@ -1,9 +1,14 @@
 import express from "express";
 import cors from "cors";
-import { afiliadoRouter } from "../routes/afiliado.js";
-import { userRouter } from "../routes/usuario.js";
 import { dbConnection } from "../database/config.js";
+import { afiliadoRouter } from "../routes/afiliado.js";
+import { uploadRouter } from "../routes/uploads.js";
+import { userRouter } from "../routes/usuario.js";
 import { auth } from "../routes/auth.js";
+
+
+
+
 
 export class Server {
   constructor() {
@@ -12,6 +17,7 @@ export class Server {
     this.afiliadosPath = "/api/afiliados";
     this.usersPath = "/api/users";
     this.authPath = "/api/auth";
+    this.uploadsPath = "/api/uploads";
 
     //Conectar a base de datos
     this.conectarDB();
@@ -39,12 +45,14 @@ export class Server {
   }
 
   routes() {
-    // Ruta de Autenticacion 
-    this.app.use(this.authPath, auth)
+    // Ruta de Autenticacion
+    this.app.use(this.authPath, auth);
     // Ruta de afiliados
     this.app.use(this.afiliadosPath, afiliadoRouter);
     // Ruta de usuarios
     this.app.use(this.usersPath, userRouter);
+    // Ruta de uploads
+    this.app.use(this.uploadsPath, uploadRouter);
   }
 
   listen() {
