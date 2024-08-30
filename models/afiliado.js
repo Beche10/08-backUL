@@ -1,99 +1,117 @@
 import { Schema, model } from "mongoose";
 
-const AfiliadoSchema = new Schema(
-  {
-    nombre: {
-      type: String,
-      required: [true, "El nombre es requerido."],
-      minlength: [2, "El nombre debe tener al menos 2 caracteres."],
-    },
+const AfiliadoSchema = new Schema({
+  nombre: {
+    type: String,
+    required: [true, "El nombre es requerido."],
+    minlength: [2, "El nombre debe tener al menos 2 caracteres."],
+  },
 
-    dni: {
-      type: Number,
-      required: [true, "El DNI es requerido."],
-      minlength: [7, "El DNI debe tener al menos 7 dígitos."],
-      maxlength: [8, "El DNI no debe tener más de 8 dígitos."],
-      match: [/^[0-9]+$/, "El DNI solo debe contener números."],
-      unique: true,
-    },
-
-    correo: {
-      type: String,
-      required: [true, "El correo es requerido."],
-      unique: true,
-      match: [
-        /^\S+@\S+\.\S+$/,
-        "Por favor, ingrese un correo electrónico válido.",
-      ],
-    },
-
-    fechaNacimiento: {
-      type: Date,
-      required: [true, "La fecha de nacimiento es requerida."],
-    },
-
-    domicilio: {
-      type: String,
-      required: [true, "El domicilio es requerido."],
-      minlength: [2, "El domicilio debe tener al menos 5 caracteres."],
-      maxlength: [50, "El domicilio no debe tener más de 50 caracteres."],
-    },
-
-    celular: {
-      type: String,
-      required: [true, "El celular es requerido."],
-      minlength: [10, "El celular debe tener al menos 10 dígitos."],
-      maxlength: [15, "El celular no debe tener más de 15 dígitos."],
-      match: [/^[0-9]+$/, "El celular solo debe contener números."],
-    },
-
-    pais: {
-      type: String,
-      required: [true, "El país es requerido."],
-    },
-
-    provincia: {
-      type: String,
-      required: function () {
-        return this.pais === "ar";
+  dni: {
+    type: String, // Cambiado a String para manejar el DNI con ceros a la izquierda y evitar problemas con grandes números
+    required: [true, "El DNI es requerido."],
+    validate: {
+      validator: function (v) {
+        return /^\d{7,8}$/.test(v);
       },
-      validate: {
-        validator: function (v) {
-          return this.pais !== "ar" || v;
-        },
-        message: "La provincia es requerida para Argentina.",
-      },
+      message: "El DNI debe tener entre 7 y 8 dígitos.",
     },
+    unique: true,
+  },
 
-    departamento: {
-      type: String,
-      required: function () {
-        return this.provincia === "Catamarca";
-      },
-      validate: {
-        validator: function (v) {
-          return this.provincia !== "Catamarca" || v;
-        },
-        message: "El departamento es requerido para la provincia de Catamarca.",
-      },
-    },
-    
-    firma: {
-      type: String, // Ruta del archivo de firma en el servidor
-      required: [true, "La firma es requerida."],
-    },
+  correo: {
+    type: String,
+    required: [true, "El correo es requerido."],
+    unique: true,
+    match: [
+      /^\S+@\S+\.\S+$/,
+      "Por favor, ingrese un correo electrónico válido.",
+    ],
+  },
 
-    archivos: {
-      type: [String], // Un arreglo de cadenas para almacenar múltiples rutas de archivos
-      validate: {
-        validator: function (v) {
-          return Array.isArray(v) && v.length > 0;
-        },
-        message: "Debe subir al menos un archivo.",
+  fechaNacimiento: {
+    type: Date,
+    required: [true, "La fecha de nacimiento es requerida."],
+    validate: {
+      validator: function (v) {
+        return v <= new Date();
       },
+      message: "La fecha de nacimiento no puede ser futura.",
     },
   },
-  { timestamps: true } // Agrega createdAt y updatedAt automáticamente
-);
+
+  domicilio: {
+    type: String,
+    required: [true, "El domicilio es requerido."],
+    minlength: [5, "El domicilio debe tener al menos 5 caracteres."],
+    maxlength: [50, "El domicilio no debe tener más de 50 caracteres."],
+  },
+
+  celular: {
+    type: String,
+    required: [true, "El celular es requerido."],
+    minlength: [10, "El celular debe tener al menos 10 dígitos."],
+    maxlength: [15, "El celular no debe tener más de 15 dígitos."],
+    match: [/^[0-9]+$/, "El celular solo debe contener números."],
+  },
+
+  pais: {
+    type: String,
+    required: [true, "El país es requerido."],
+  },
+
+  provincia: {
+    type: String,
+    required: function () {
+      return this.pais === "ar";
+    },
+    validate: {
+      validator: function (v) {
+        return this.pais !== "ar" || v;
+      },
+      message: "La provincia es requerida para Argentina.",
+    },
+  },
+
+  departamento: {
+    type: String,
+    required: function () {
+      return this.provincia === "Catamarca";
+    },
+    validate: {
+      validator: function (v) {
+        return this.provincia !== "Catamarca" || v;
+      },
+      message: "El departamento es requerido para la provincia de Catamarca.",
+    },
+  },
+
+  estadoCivil: {
+    type: String,
+    enum: ["soltero", "casado", "divorciado", "viudo"],
+    required: [true, "El estado civil es requerido."],
+  },
+
+  ocupacion: {
+    type: String,
+    enum: ["estudiante", "empleado", "autonomo", "desempleado", "jubilado", 'ama de casa', "otro"],
+    required: [true, "La ocupación es requerida."],
+  },
+
+  firma: {
+    type: String, // Asumiendo que firma es una cadena de base64 o una URL
+    required: [true, "La firma es requerida."],
+  },
+ 
+  archivos: {
+    type: [String], // Un arreglo de cadenas para almacenar múltiples rutas de archivos
+    validate: {
+      validator: function (v) {
+        return Array.isArray(v) && v.length > 0;
+      },
+      message: "Debe subir al menos un archivo.",
+    },
+  },
+});
 
 export const Afiliado = model("Afiliado", AfiliadoSchema);
