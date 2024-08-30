@@ -29,7 +29,7 @@ export const afiliadoPost = async (req, res = response) => {
     provincia,
     departamento,
     firma,
-    archivos,
+    fotoDni,
   } = req.body;
 
   const afiliadoDB = await Afiliado.findOne({ dni });
@@ -53,7 +53,7 @@ export const afiliadoPost = async (req, res = response) => {
     provincia,
     departamento,
     firma,
-    archivos,
+    fotoDni,
   });
 
   // Guardar en DB
