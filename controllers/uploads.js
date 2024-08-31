@@ -12,6 +12,17 @@ export const uploads = (req, res = response) => {
   }
 
   const { archivo } = req.files;
+  const nombreCortado = archivo.name.split(".");
+  const extension = nombreCortado[nombreCortado.length - 1];
+
+  // Validar extension
+
+  const extensionesValidas = ["png", "jpg", "jpeg"];
+  if (!extensionesValidas.includes(extension)) {
+    return res.status(400).json({
+      msg: `La extension ${extension} no es permitida, ${extension}`,
+    });
+  }
 
   const uploadPath = path.join(__dirname, "../uploads/", archivo.name);
 
