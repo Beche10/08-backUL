@@ -8,7 +8,7 @@ export const uploads = async (req, res = response) => {
   }
 
   // Imagenes
-  const nombre = await uploadFile(req.files);
+  const nombre = await uploadFile(req.files, undefined, 'imgs');
 
   res.json({ nombre });
 };
