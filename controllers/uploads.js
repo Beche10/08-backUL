@@ -1,3 +1,4 @@
+import path from "path";
 import { response } from "express";
 
 export const uploads = (req, res = response) => {
@@ -8,17 +9,13 @@ export const uploads = (req, res = response) => {
 
   const { archivo } = req.files;
 
-  uploadPath = __dirname + "/uploads/" + sampleFile.name;
+  const uploadPath = path.join(__dirname, "../uploads/", archivo.name);
 
-  sampleFile.mv(uploadPath, function (err) {
+  archivo.mv(uploadPath, (err) => {
     if (err) {
-      return res.status(500).send(err);
+      return res.status(500).json({ err });
     }
 
-    res.send("File uploaded to " + uploadPath);
-  });
-
-  res.json({
-    msg: "Soy el archivo subido",
+    res.json({ msg: 'File uploaded to' + uploadPath });
   });
 };
