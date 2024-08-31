@@ -1,10 +1,12 @@
 import express from "express";
 import cors from "cors";
+import fileUpload from "express-fileupload";
 import { dbConnection } from "../database/config.js";
 import { afiliadoRouter } from "../routes/afiliado.js";
 import { uploadRouter } from "../routes/uploads.js";
 import { userRouter } from "../routes/usuario.js";
 import { auth } from "../routes/auth.js";
+
 
 export class Server {
   constructor() {
@@ -30,14 +32,22 @@ export class Server {
   }
 
   middlewares() {
-    //CORS
+    // CORS
     this.app.use(cors());
 
-    //Lectura y parseo del body
+    // Lectura y parseo del body
     this.app.use(express.json());
 
-    //Directorio publico
+    // Directorio publico
     this.app.use(express.static("public"));
+
+    // File uploads - carga de archivos
+    this.app.use(
+      fileUpload({
+        useTempFiles: true,
+        tempFileDir: "/tmp/",
+      })
+    );
   }
 
   routes() {
