@@ -1,6 +1,8 @@
+import { response } from "express";
 import path from "path";
 import { fileURLToPath } from "url"; // Necesario para calcular __dirname
-import { response } from "express";
+import { v4 as uuidv4 } from 'uuid';
+
 
 export const uploads = (req, res = response) => {
   const __filename = fileURLToPath(import.meta.url);
@@ -16,7 +18,6 @@ export const uploads = (req, res = response) => {
   const extension = nombreCortado[nombreCortado.length - 1];
 
   // Validar extension
-
   const extensionesValidas = ["png", "jpg", "jpeg"];
   if (!extensionesValidas.includes(extension)) {
     return res.status(400).json({
@@ -24,7 +25,8 @@ export const uploads = (req, res = response) => {
     });
   }
 
-  const uploadPath = path.join(__dirname, "../uploads/", archivo.name);
+  const nombreTemp = uuidv4() + '.' + extension;
+  const uploadPath = path.join( __dirname, "../uploads/", nombreTemp );
 
   archivo.mv(uploadPath, (err) => {
     if (err) {
