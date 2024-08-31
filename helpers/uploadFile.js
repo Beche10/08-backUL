@@ -4,7 +4,8 @@ import { v4 as uuidv4 } from "uuid";
 
 export const uploadFile = (
   files,
-  extensionesValidas = ["png", "jpg", "jpeg"]
+  extensionesValidas = ["png", "jpg", "jpeg"],
+  carpeta = ""
 ) => {
   return new Promise((resolve, reject) => {
     const __filename = fileURLToPath(import.meta.url);
@@ -20,14 +21,19 @@ export const uploadFile = (
     }
 
     const nombreTemp = uuidv4() + "." + extension;
-    const uploadPath = path.join(__dirname, "../uploads/", nombreTemp);
+    const uploadPath = path.join(
+      __dirname,
+      "../uploads/",
+      carpeta,
+      nombreTemp
+    );
 
     archivo.mv(uploadPath, (err) => {
       if (err) {
         return reject(err);
       }
 
-      resolve(uploadPath);
+      resolve(nombreTemp);
     });
   });
 };

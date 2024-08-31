@@ -1,14 +1,14 @@
 import { response } from "express";
+import { uploadFile } from "../helpers/uploadFile.js";
 
-
-
-export const uploads = (req, res = response) => {
- 
-
+export const uploads = async (req, res = response) => {
   if (!req.files || Object.keys(req.files).length === 0 || !req.files.archivo) {
     res.status(400).json({ msg: "El contenedor no tiene ningun archivo." });
     return;
   }
 
-  
+  // Imagenes
+  const nombre = await uploadFile(req.files);
+
+  res.json({ nombre });
 };
