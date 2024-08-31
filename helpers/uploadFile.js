@@ -16,7 +16,7 @@ export const uploadFile = (
 
     // Validar extension
     if (!extensionesValidas.includes(extension)) {
-      reject(`La extension ${extension} no es permitida, ${extension}`);
+      return reject(`La extension ${extension} no es permitida, ${extension}`);
     }
 
     const nombreTemp = uuidv4() + "." + extension;
