@@ -6,3 +6,4 @@ import { uploads } from "../controllers/uploads.js";
 export const uploadRouter = Router();
 
 uploadRouter.post("/", uploads);
+uploadRouter.put("/:colecccion/:id", [], );

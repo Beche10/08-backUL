@@ -12,3 +12,10 @@ export const uploads = async (req, res = response) => {
 
   res.json({ nombre });
 };
+
+
+export const updateImage = async( req, res = response ) => {
+
+    const { id, coleccion } = req.params;
+
+};
