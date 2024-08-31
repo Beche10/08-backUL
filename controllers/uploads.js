@@ -18,4 +18,6 @@ export const updateImage = async( req, res = response ) => {
 
     const { id, coleccion } = req.params;
 
+    res.json({ id, coleccion });
+
 };
