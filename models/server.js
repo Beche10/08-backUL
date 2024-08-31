@@ -6,10 +6,6 @@ import { uploadRouter } from "../routes/uploads.js";
 import { userRouter } from "../routes/usuario.js";
 import { auth } from "../routes/auth.js";
 
-
-
-
-
 export class Server {
   constructor() {
     this.app = express();
