@@ -1,5 +1,6 @@
 import { response } from "express";
 import { uploadFile } from "../helpers/uploadFile.js";
+import { Usuario } from "../models/usuario.js";
 
 export const uploads = async (req, res = response) => {
   if (!req.files || Object.keys(req.files).length === 0 || !req.files.archivo) {
@@ -8,16 +9,33 @@ export const uploads = async (req, res = response) => {
   }
 
   // Imagenes
-  const nombre = await uploadFile(req.files, undefined, 'imgs');
+  const nombre = await uploadFile(req.files, undefined, "imgs");
 
   res.json({ nombre });
 };
 
+export const updateImage = async (req, res = response) => {
+  const { id, coleccion } = req.params;
 
-export const updateImage = async( req, res = response ) => {
+  let modelo;
 
-    const { id, coleccion } = req.params;
+  switch (key) {
+    case users:
+      modelo = await Usuario.findById(id);
 
-    res.json({ id, coleccion });
+      if (!modelo) {
+        return res.status(400).json({
+          msg: `No existe un usuario con el id ${id}.`,
+        });
+      }
 
+      break;
+
+    default:
+      return res.status(500).json({
+        msg: "Se me olvidó validar esto",
+      });
+  }
+
+  res.json({ id, coleccion });
 };

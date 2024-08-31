@@ -16,10 +16,21 @@ export const emailExist = async (correo = "") => {
   }
 };
 
-export const isUserById = async ( id ) => {
+export const isUserById = async (id) => {
   // Verificar si el id existe
-  const existeUsuario = await Usuario.findById( id );
-  if ( !existeUsuario) {
+  const existeUsuario = await Usuario.findById(id);
+  if (!existeUsuario) {
     throw new Error(`El ${id}, no existe.`);
   }
+};
+
+/* VALIDAR COLLECIONES PERMITIDAS */
+export const coleccionesPermitidas = (coleccion = "", colecciones = []) => {
+  const incluida = colecciones.includes(coleccion);
+  if (!incluida) {
+    throw new Error(
+      `La colección ${coleccion} no es permitida, ${colecciones}.`
+    )}
+
+    return true;
 };
