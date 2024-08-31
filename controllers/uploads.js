@@ -1,7 +1,11 @@
 import path from "path";
+import { fileURLToPath } from "url"; // Necesario para calcular __dirname
 import { response } from "express";
 
 export const uploads = (req, res = response) => {
+  const __filename = fileURLToPath(import.meta.url);
+  const __dirname = path.dirname(__filename);
+
   if (!req.files || Object.keys(req.files).length === 0 || !req.files.archivo) {
     res.status(400).json({ msg: "El contenedor no tiene ningun archivo." });
     return;
@@ -16,6 +20,6 @@ export const uploads = (req, res = response) => {
       return res.status(500).json({ err });
     }
 
-    res.json({ msg: 'File uploaded to' + uploadPath });
+    res.json({ msg: "File uploaded to" + uploadPath });
   });
 };
