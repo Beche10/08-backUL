@@ -19,8 +19,8 @@ export const updateImage = async (req, res = response) => {
 
   let modelo;
 
-  switch (key) {
-    case users:
+  switch (coleccion) {
+    case 'users':
       modelo = await Usuario.findById(id);
 
       if (!modelo) {
