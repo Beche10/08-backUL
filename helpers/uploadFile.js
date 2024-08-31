@@ -16,7 +16,7 @@ export const uploadFile = (
 
     // Validar extension
     if (!extensionesValidas.includes(extension)) {
-      return reject(`La extension ${extension} no es permitida, ${extension}`);
+      return reject(`La extension ${extension} no es permitida - ${extension}`);
     }
 
     const nombreTemp = uuidv4() + "." + extension;
@@ -24,10 +24,10 @@ export const uploadFile = (
 
     archivo.mv(uploadPath, (err) => {
       if (err) {
-        return res.status(500).json({ err });
+        return reject(err);
       }
 
-      res.json({ msg: "File uploaded to" + uploadPath });
+      resolve(uploadPath);
     });
   });
 };
