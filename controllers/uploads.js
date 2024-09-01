@@ -20,7 +20,7 @@ export const updateImage = async (req, res = response) => {
   let modelo;
 
   switch (coleccion) {
-    case 'users':
+    case "users":
       modelo = await Usuario.findById(id);
 
       if (!modelo) {
@@ -36,6 +36,11 @@ export const updateImage = async (req, res = response) => {
         msg: "Se me olvidó validar esto",
       });
   }
+
+  const nombre = await uploadFile(req.files, undefined, coleccion);
+  modelo.img = nombre;
+
+  await modelo.save();
 
   res.json({ id, coleccion });
 };
