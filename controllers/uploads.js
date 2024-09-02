@@ -1,5 +1,6 @@
 import path from "path";
 import fs from "fs";
+import { fileURLToPath } from "url"; 
 import { response } from "express";
 import { uploadFile } from "../helpers/uploadFile.js";
 import { Usuario } from "../models/usuario.js";
@@ -15,7 +16,8 @@ export const uploads = async (req, res = response) => {
 // Actualizar imagen
 export const updateImage = async (req, res = response) => {
   const { id, coleccion } = req.params;
-
+  const __filename = fileURLToPath(import.meta.url);
+  const __dirname = path.dirname(__filename);
   let modelo;
 
   switch (coleccion) {
