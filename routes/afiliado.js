@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { afiliadoGet, afiliadoPost } from "../controllers/afiliado.js";
+import { afiliadoGet, afiliadoGetById, afiliadoPost } from "../controllers/afiliado.js";
 
 export const afiliadoRouter = Router();
 
@@ -7,9 +7,7 @@ export const afiliadoRouter = Router();
 afiliadoRouter.get("/", afiliadoGet);
 
 // Obtener afiliados especificos - Privado
-afiliadoRouter.get("/:id", (req, res) => {
-  res.json("get - id");
-});
+afiliadoRouter.get("/:id", afiliadoGetById);
 
 // Crear afiliados - Publico
 afiliadoRouter.post("/", afiliadoPost);

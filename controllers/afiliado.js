@@ -7,13 +7,38 @@ export const afiliadoGet = async (req = request, res = response) => {
 
     res.json({
       msg: "Afiliados de DB:",
-      afiliados
+      afiliados,
     });
   } catch (error) {
     console.error(error);
     res.status(500).json({
       msg: "Error al obtener los afiliados",
-      error
+      error,
+    });
+  }
+};
+
+export const afiliadoGetById = async (req = request, res = response) => {
+  const { id } = req.params;
+
+  try {
+    const afiliado = await Afiliado.findById(id);
+
+    if (!afiliado) {
+      return res.status(404).json({
+        msg: `No se encontró un afiliado con el ID: ${id}`,
+      });
+    }
+
+    res.json({
+      msg: "Afiliado encontrado:",
+      afiliado,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      msg: "Error al obtener el afiliado",
+      error,
     });
   }
 };
@@ -63,7 +88,7 @@ export const afiliadoPost = async (req, res = response) => {
   await afiliado.save();
 
   res.status(201).json({
-    msg: "post Afiliados - controlador",
+    msg: "Nuevo Afiliado:",
     afiliado,
   });
 };
