@@ -55,9 +55,51 @@ export const updateImage = async (req, res = response) => {
   res.json({ modelo });
 };
 
-
 // Mostrar imagen
 
-export const showImage = ( req, response = response ) => {
+export const showImage = async (req, response = response) => {
+  const { id, coleccion } = req.params;
+  const __filename = fileURLToPath(import.meta.url);
+  const __dirname = path.dirname(__filename);
+  let modelo;
 
-}
+  switch (coleccion) {
+    case "users":
+      modelo = await Usuario.findById(id);
+
+      if (!modelo) {
+        return res.status(400).json({
+          msg: `No existe un usuario con el id ${id}.`,
+        });
+      }
+
+      break;
+
+    case "afiliado":
+      modelo = await Afiliado.findById(id);
+
+      if (!modelo) {
+        return res.status(400).json({
+          msg: `No existe un afiliado con el id ${id}.`,
+        });
+      }
+
+      break;
+
+    default:
+      return res.status(500).json({
+        msg: "Se me olvidó validar esto",
+      });
+  }
+
+  // Limpiar imagenes previas
+  if (modelo.img) {
+    // Hay que borrar la imagen del servidor
+    const pathImage = path.join(__dirname, "../uploads", coleccion, modelo.img);
+    if (fs.existsSync(pathImage)) {
+      return res.sendFile(pathFile);
+    }
+  }
+
+  res.json({ msg: "falta placeholder" });
+};
