@@ -54,3 +54,10 @@ export const updateImage = async (req, res = response) => {
 
   res.json({ modelo });
 };
+
+
+// Mostrar imagen
+
+export const showImage = ( req, response = response ) => {
+
+}
