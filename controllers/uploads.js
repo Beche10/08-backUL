@@ -2,30 +2,16 @@ import { response } from "express";
 import { uploadFile } from "../helpers/uploadFile.js";
 import { Usuario } from "../models/usuario.js";
 
-
 // Subir imagen
 export const uploads = async (req, res = response) => {
-  if (!req.files || Object.keys(req.files).length === 0 || !req.files.archivo) {
-    res.status(400).json({ msg: "El contenedor no tiene ningun archivo." });
-    return;
-  }
-
   // Imagenes
   const nombre = await uploadFile(req.files, undefined, "imgs");
 
   res.json({ nombre });
 };
 
-
-
 // Actualizar imagen
 export const updateImage = async (req, res = response) => {
- 
-  if (!req.files || Object.keys(req.files).length === 0 || !req.files.archivo) {
-    res.status(400).json({ msg: "El contenedor no tiene ningun archivo." });
-    return;
-  }
-     
   const { id, coleccion } = req.params;
 
   let modelo;
