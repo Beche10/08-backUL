@@ -1,9 +1,8 @@
-import path from 'path';
+import path from "path";
+import fs from "fs";
 import { response } from "express";
 import { uploadFile } from "../helpers/uploadFile.js";
 import { Usuario } from "../models/usuario.js";
-
-
 
 // Subir imagen
 export const uploads = async (req, res = response) => {
@@ -38,9 +37,13 @@ export const updateImage = async (req, res = response) => {
   }
 
   // Limpiar imagenes previas
-
-
-
+  if (modelo.img) {
+    // Hay que borrar la imagen del servidor
+    const pathImage = path.join(__dirname, "../uploads", coleccion, modelo.img);
+    if (fs.existsSync(pathImage)) {
+      fs.unlinkSync(pathImage);
+    }
+  }
 
   const nombre = await uploadFile(req.files, undefined, coleccion);
   modelo.img = nombre;
