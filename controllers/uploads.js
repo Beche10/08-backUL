@@ -1,6 +1,9 @@
+import path from 'path';
 import { response } from "express";
 import { uploadFile } from "../helpers/uploadFile.js";
 import { Usuario } from "../models/usuario.js";
+
+
 
 // Subir imagen
 export const uploads = async (req, res = response) => {
@@ -33,6 +36,11 @@ export const updateImage = async (req, res = response) => {
         msg: "Se me olvidó validar esto",
       });
   }
+
+  // Limpiar imagenes previas
+
+
+
 
   const nombre = await uploadFile(req.files, undefined, coleccion);
   modelo.img = nombre;
