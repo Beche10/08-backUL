@@ -1,6 +1,6 @@
 import path from "path";
 import fs from "fs";
-import { fileURLToPath } from "url"; 
+import { fileURLToPath } from "url";
 import { response } from "express";
 import { uploadFile } from "../helpers/uploadFile.js";
 import { Usuario } from "../models/usuario.js";
