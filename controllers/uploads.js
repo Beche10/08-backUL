@@ -25,10 +25,7 @@ export const updateImage = async (req, res = response) => {
     res.status(400).json({ msg: "El contenedor no tiene ningun archivo." });
     return;
   }
-  
-  
-  
-  
+     
   const { id, coleccion } = req.params;
 
   let modelo;
