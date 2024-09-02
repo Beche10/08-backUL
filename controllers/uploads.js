@@ -42,5 +42,5 @@ export const updateImage = async (req, res = response) => {
 
   await modelo.save();
 
-  res.json({ id, coleccion });
+  res.json({ modelo });
 };
