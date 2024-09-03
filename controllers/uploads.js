@@ -1,5 +1,14 @@
 import path from "path";
 import fs from "fs";
+import dotenv from "dotenv";
+dotenv.config();
+import { v2 as cloudinary } from "cloudinary";
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
 import { fileURLToPath } from "url";
 import { response } from "express";
 import { uploadFile } from "../helpers/uploadFile.js";
@@ -53,6 +62,43 @@ export const updateImage = async (req, res = response) => {
   await modelo.save();
 
   res.json({ modelo });
+};
+
+export const updateImageCloudinary = async (req, res = response) => {
+  const { id, coleccion } = req.params;
+  const __filename = fileURLToPath(import.meta.url);
+  const __dirname = path.dirname(__filename);
+  let modelo;
+
+  switch (coleccion) {
+    case "users":
+      modelo = await Usuario.findById(id);
+
+      if (!modelo) {
+        return res.status(400).json({
+          msg: `No existe un usuario con el id ${id}.`,
+        });
+      }
+
+      break;
+
+    default:
+      return res.status(500).json({
+        msg: "Se me olvidó validar esto",
+      });
+  }
+
+  // Limpiar imagenes previas
+  if (modelo.img) {
+  }
+
+  const { tempFilePath } = req.files.archivo;
+  const { secure_url } = await cloudinary.uploader.upload(tempFilePath);
+  modelo.img = secure_url;
+
+  await modelo.save();
+
+  res.json(modelo);
 };
 
 // Mostrar imagen
