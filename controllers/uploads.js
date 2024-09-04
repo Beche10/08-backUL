@@ -13,6 +13,7 @@ import { fileURLToPath } from "url";
 import { response } from "express";
 import { uploadFile } from "../helpers/uploadFile.js";
 import { Usuario } from "../models/usuario.js";
+import { Afiliado } from "../models/afiliado.js";
 
 // Subir imagen
 export const uploads = async (req, res = response) => {

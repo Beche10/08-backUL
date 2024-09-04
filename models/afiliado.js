@@ -94,7 +94,15 @@ const AfiliadoSchema = new Schema({
 
   ocupacion: {
     type: String,
-    enum: ["estudiante", "empleado", "autonomo", "desempleado", "jubilado", 'ama de casa', "otro"],
+    enum: [
+      "estudiante",
+      "empleado",
+      "autonomo",
+      "desempleado",
+      "jubilado",
+      "ama de casa",
+      "otro",
+    ],
     required: [true, "La ocupación es requerida."],
   },
 
@@ -102,11 +110,11 @@ const AfiliadoSchema = new Schema({
     type: String, // Asumiendo que firma es una cadena de base64 o una URL
     required: [true, "La firma es requerida."],
   },
- /*
+
   fotoDni: {
     type: [String], // Un arreglo de cadenas para almacenar múltiples rutas de archivos
-      message: "Debe subir al menos un archivo.",
-    },*/
-  });
+    message: "Debe subir al menos un archivo.",
+  },
+});
 
 export const Afiliado = model("Afiliado", AfiliadoSchema);
