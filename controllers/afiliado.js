@@ -56,63 +56,74 @@ export const afiliadoGetById = async (req = request, res = response) => {
 };
 
 export const afiliadoPost = async (req, res = response) => {
-  const {
-    nombre,
-    dni,
-    correo,
-    fechaNacimiento,
-    domicilio,
-    celular,
-    ocupacion,
-    estadoCivil,
-    pais,
-    provincia,
-    departamento,
-    firma,
-    fotoDni,
-  } = req.body;
+  try {
+    const {
+      nombre,
+      dni,
+      correo,
+      fechaNacimiento,
+      domicilio,
+      celular,
+      ocupacion,
+      estadoCivil,
+      pais,
+      provincia,
+      departamento,
+      firma,
+    } = req.body;
 
-  const afiliadoDB = await Afiliado.findOne({ dni });
+    
+    // Verificar si el archivo ha sido enviado
+    if (!req.files || !req.files.fotoDni.name) {
+      return res.status(400).json({
+        msg: "La foto del DNI es obligatoria.",
+      });
+    }
 
-  if (afiliadoDB) {
-    return res.status(400).json({
-      msg: `El usuario con dni: ${dni} ya se encuentra registrado.`,
+    // Verificar si ya existe un afiliado con el DNI proporcionado
+    const afiliadoDB = await Afiliado.findOne({ dni });
+
+    if (afiliadoDB) {
+      return res.status(400).json({
+        msg: `El usuario con DNI: ${dni} ya se encuentra registrado.`,
+      });
+    }
+
+     // Subir la imagen del DNI a Cloudinary
+     const { tempFilePath } = req.files.fotoDni;
+     const { secure_url: fotoDniUrl } = await cloudinary.uploader.upload(
+        tempFilePath
+     );
+
+    // Crear nuevo afiliado con la URL de la imagen subida
+    const afiliado = new Afiliado({
+      nombre,
+      dni,
+      correo,
+      fechaNacimiento,
+      domicilio,
+      celular,
+      ocupacion,
+      estadoCivil,
+      pais,
+      provincia,
+      departamento,
+      firma,
+      //fotoDni: [fotoDniUrl],
+    });
+
+    // Guardar en la base de datos
+    await afiliado.save();
+
+    res.status(201).json({
+      msg: "Afiliado creado exitosamente.",
+      afiliado,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      msg: "Error al crear el afiliado.",
+      error,
     });
   }
-
-  const afiliado = new Afiliado({
-    nombre,
-    dni,
-    correo,
-    fechaNacimiento,
-    domicilio,
-    celular,
-    ocupacion,
-    estadoCivil,
-    pais,
-    provincia,
-    departamento,
-    firma,
-    fotoDni,
-  });
-
-  // Guardar en DB
-  await afiliado.save();
-
-  res.status(201).json({
-    msg: "Nuevo Afiliado:",
-    afiliado,
-  });
-};
-
-export const afiliadoDelete = (req, res = response) => {
-  res.json({
-    msg: "delete Afiliados - controlador",
-  });
-};
-
-export const afiliadoPatch = (req, res = response) => {
-  res.json({
-    msg: "patch Afiliados - controlador",
-  });
 };
