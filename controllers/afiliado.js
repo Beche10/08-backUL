@@ -69,33 +69,36 @@ export const afiliadoPost = async (req, res = response) => {
       pais,
       provincia,
       departamento,
-      firma,
     } = req.body;
 
-    
-    // Verificar si el archivo ha sido enviado
-    if (!req.files || !req.files.fotoDni.name) {
+    // Verificar si ambos archivos, firma y fotoDni, han sido enviados
+    if (!req.files || !req.files.fotoDni || !req.files.firma) {
       return res.status(400).json({
-        msg: "La foto del DNI es obligatoria.",
+        msg: "La foto del DNI y la firma son obligatorias.",
       });
     }
 
     // Verificar si ya existe un afiliado con el DNI proporcionado
     const afiliadoDB = await Afiliado.findOne({ dni });
-
     if (afiliadoDB) {
       return res.status(400).json({
         msg: `El usuario con DNI: ${dni} ya se encuentra registrado.`,
       });
     }
 
-     // Subir la imagen del DNI a Cloudinary
-     const { tempFilePath } = req.files.fotoDni;
-     const { secure_url: fotoDniUrl } = await cloudinary.uploader.upload(
-        tempFilePath
-     );
+    // Subir la foto del DNI a Cloudinary
+    const { tempFilePath: tempFileDni } = req.files.fotoDni;
+    const { secure_url: fotoDniUrl } = await cloudinary.uploader.upload(
+      tempFileDni
+    );
 
-    // Crear nuevo afiliado con la URL de la imagen subida
+    // Subir la firma a Cloudinary
+    const { tempFilePath: tempFileFirma } = req.files.firma;
+    const { secure_url: firmaUrl } = await cloudinary.uploader.upload(
+      tempFileFirma
+    );
+
+    // Crear nuevo afiliado con las URLs de las imágenes subidas
     const afiliado = new Afiliado({
       nombre,
       dni,
@@ -108,8 +111,8 @@ export const afiliadoPost = async (req, res = response) => {
       pais,
       provincia,
       departamento,
-      firma,
-      //fotoDni: [fotoDniUrl],
+      firma: firmaUrl, // URL de la firma subida a Cloudinary
+      fotoDni: [fotoDniUrl], // URL de la foto del DNI subida a Cloudinary
     });
 
     // Guardar en la base de datos
