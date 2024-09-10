@@ -17,7 +17,7 @@ import { Afiliado } from "../models/afiliado.js";
 
 // Subir imagen
 export const uploads = async (req, res = response) => {
-  // Imagenes
+  // Subir archivo al servidor
   const nombre = await uploadFile(req.files, undefined, "imgs");
 
   res.json({ nombre });
@@ -67,8 +67,8 @@ export const updateImage = async (req, res = response) => {
 
 export const updateImageCloudinary = async (req, res = response) => {
   const { id, coleccion } = req.params;
-  const __filename = fileURLToPath(import.meta.url);
-  const __dirname = path.dirname(__filename);
+  /*const __filename = fileURLToPath(import.meta.url);
+  const __dirname = path.dirname(__filename); */
   let modelo;
 
   switch (coleccion) {
