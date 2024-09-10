@@ -72,13 +72,6 @@ export const afiliadoPost = async (req, res = response) => {
       firma,
     } = req.body;
 
-    // Verificar si ambos archivos, firma y fotoDni, han sido enviados
-    if (!req.files || !req.files.fotoDni || !req.files.firma) {
-      return res.status(400).json({
-        msg: "La foto del DNI y la firma son obligatorias.",
-      });
-    }
-
     // Verificar si ya existe un afiliado con el DNI proporcionado
     const afiliadoDB = await Afiliado.findOne({ dni });
     if (afiliadoDB) {
@@ -87,13 +80,13 @@ export const afiliadoPost = async (req, res = response) => {
       });
     }
 
-    // Subir la foto del DNI a Cloudinary (si existe en req.files)
-    let fotoDniUrl = [];
-    if (req.files && req.files.fotoDni) {
-      const { tempFilePath: tempFileDni } = req.files.fotoDni;
-      const { secure_url } = await cloudinary.uploader.upload(tempFileDni);
-      fotoDniUrl = [secure_url]; // Guardar la URL de la foto subida a Cloudinary
-    }
+     // Subir la foto del DNI a Cloudinary
+     let fotoDniUrl = [];
+     if (req.files && req.files.fotoDni) {
+       const { tempFilePath: tempFileDni } = req.files.fotoDni;
+       const { secure_url } = await cloudinary.uploader.upload(tempFileDni);
+       fotoDniUrl = [secure_url]; // Guardar la URL de la foto subida a Cloudinary
+     }
 
     /*
     // Subir la firma a Cloudinary
