@@ -69,6 +69,7 @@ export const afiliadoPost = async (req, res = response) => {
       pais,
       provincia,
       departamento,
+      firma,
     } = req.body;
 
     // Verificar si ambos archivos, firma y fotoDni, han sido enviados
@@ -86,19 +87,23 @@ export const afiliadoPost = async (req, res = response) => {
       });
     }
 
-    // Subir la foto del DNI a Cloudinary
-    const { tempFilePath: tempFileDni } = req.files.fotoDni;
-    const { secure_url: fotoDniUrl } = await cloudinary.uploader.upload(
-      tempFileDni
-    );
+    // Subir la foto del DNI a Cloudinary (si existe en req.files)
+    let fotoDniUrl = [];
+    if (req.files && req.files.fotoDni) {
+      const { tempFilePath: tempFileDni } = req.files.fotoDni;
+      const { secure_url } = await cloudinary.uploader.upload(tempFileDni);
+      fotoDniUrl = [secure_url]; // Guardar la URL de la foto subida a Cloudinary
+    }
 
+    /*
     // Subir la firma a Cloudinary
     const { tempFilePath: tempFileFirma } = req.files.firma;
     const { secure_url: firmaUrl } = await cloudinary.uploader.upload(
       tempFileFirma
     );
+    */
 
-    // Crear nuevo afiliado con las URLs de las imágenes subidas
+    // Guardar nuevo afiliado con la firma (Base64) y fotos subidas
     const afiliado = new Afiliado({
       nombre,
       dni,
@@ -111,8 +116,8 @@ export const afiliadoPost = async (req, res = response) => {
       pais,
       provincia,
       departamento,
-      firma: firmaUrl, // URL de la firma subida a Cloudinary
-      fotoDni: [fotoDniUrl], // URL de la foto del DNI subida a Cloudinary
+      firma, // Firma enviada directamente en Base64
+      fotoDni: fotoDniUrl, // URL de la foto subida
     });
 
     // Guardar en la base de datos
