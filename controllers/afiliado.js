@@ -95,25 +95,37 @@ export const afiliadoPost = async (req, res = response) => {
 
     // Manejo de la firma en base64
     let firmaUrl = "";
-    if (firma) {
-      // Ruta temporal para guardar la firma
-      const tempDir = os.tmpdir(); // Ruta del directorio temporal del sistema
-      const tempFirmaPath = path.join(tempDir, `firma-${Date.now()}.png`); // Nombre de archivo único
+    if (firma && firma !== "null") {
+      // Verificar que la firma no sea null o vacía
+      try {
+        // Ruta temporal para guardar la firma
+        const tempDir = os.tmpdir(); // Ruta del directorio temporal del sistema
+        const tempFirmaPath = path.join(tempDir, `firma-${Date.now()}.png`); // Nombre de archivo único
 
-      // Convertir la firma base64 a imagen y guardarla en la ruta temporal
-      const base64Data = firma.replace(/^data:image\/png;base64,/, "");
-      fs.writeFileSync(tempFirmaPath, base64Data, "base64");
+        // Convertir la firma base64 a imagen y guardarla en la ruta temporal
+        const base64Data = firma.replace(/^data:image\/png;base64,/, "");
+        fs.writeFileSync(tempFirmaPath, base64Data, "base64");
 
-      // Subir la imagen temporal a Cloudinary
-      const { secure_url } = await cloudinary.uploader.upload(tempFirmaPath);
-      firmaUrl = secure_url;
+        // Subir la imagen temporal a Cloudinary
+        const { secure_url } = await cloudinary.uploader.upload(tempFirmaPath);
+        firmaUrl = secure_url;
 
-      // Eliminar el archivo temporal después de la carga
-      fs.unlink(tempFirmaPath, (err) => {
-        if (err) console.log("Error al eliminar archivo temporal:", err);
-      });
+        // Eliminar el archivo temporal después de la carga
+        fs.unlink(tempFirmaPath, (err) => {
+          if (err) {
+            console.error("Error al eliminar archivo temporal:", err);
+          } else {
+            console.log("Archivo temporal eliminado correctamente");
+          }
+        });
+      } catch (err) {
+        console.error("Error al procesar la firma base64:", err);
+        return res.status(400).json({
+          msg: "Firma no válida, por favor intenta nuevamente.",
+        });
+      }
     } else {
-      console.log("No se recibió firma.");
+      console.log("No se recibió firma válida.");
     }
 
     // Guardar nuevo afiliado con la firma y fotos subidas
