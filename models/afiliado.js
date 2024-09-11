@@ -108,11 +108,12 @@ const AfiliadoSchema = new Schema({
 
   firma: {
     type: String, // Asumiendo que firma es una cadena de base64 o una URL
-    //required: [true, "La firma es requerida."],
+    required: [true, "La firma es requerida."],
   },
 
   fotosDni: {
     type: [String], // Un arreglo de cadenas para almacenar múltiples rutas de archivos
+    required: [true, "La documentación es requerida."],
     validate: {
       validator: function (v) {
         return v && v.length > 0;
