@@ -1,11 +1,12 @@
+import { response } from "express";
+import os from "os";
 import path from "path";
 import fs from "fs";
 import dotenv from "dotenv";
 dotenv.config();
 import { v2 as cloudinary } from "cloudinary";
-import { fileURLToPath } from "url";
-import { response } from "express";
 import { Afiliado } from "../models/afiliado.js";
+import { uploads } from "./uploads.js";
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -57,6 +58,10 @@ export const afiliadoGetById = async (req = request, res = response) => {
 
 export const afiliadoPost = async (req, res = response) => {
   try {
+    // Verificar el contenido recibido
+    console.log("Cuerpo de la solicitud:", req.body);
+    console.log("Archivos recibidos:", req.files);
+
     const {
       nombre,
       dni,
@@ -69,7 +74,7 @@ export const afiliadoPost = async (req, res = response) => {
       pais,
       provincia,
       departamento,
-      firma,
+      firma, // Firma en Base64
     } = req.body;
 
     // Verificar si ya existe un afiliado con el DNI proporcionado
@@ -80,23 +85,38 @@ export const afiliadoPost = async (req, res = response) => {
       });
     }
 
-     // Subir la foto del DNI a Cloudinary
-     let fotoDniUrl = [];
-     if (req.files && req.files.fotoDni) {
-       const { tempFilePath: tempFileDni } = req.files.fotoDni;
-       const { secure_url } = await cloudinary.uploader.upload(tempFileDni);
-       fotoDniUrl = [secure_url]; // Guardar la URL de la foto subida a Cloudinary
-     }
+    // Subir la foto del DNI a Cloudinary (si se proporciona)
+    let fotoDniUrl = [];
+    if (req.files && req.files.fotoDni) {
+      const { tempFilePath: tempFileDni } = req.files.fotoDni;
+      const { secure_url } = await cloudinary.uploader.upload(tempFileDni);
+      fotoDniUrl = [secure_url]; // Guardar la URL de la foto subida a Cloudinary
+    }
 
-    /*
-    // Subir la firma a Cloudinary
-    const { tempFilePath: tempFileFirma } = req.files.firma;
-    const { secure_url: firmaUrl } = await cloudinary.uploader.upload(
-      tempFileFirma
-    );
-    */
+    // Manejo de la firma en base64
+    let firmaUrl = "";
+    if (firma) {
+      // Ruta temporal para guardar la firma
+      const tempDir = os.tmpdir(); // Ruta del directorio temporal del sistema
+      const tempFirmaPath = path.join(tempDir, `firma-${Date.now()}.png`); // Nombre de archivo único
 
-    // Guardar nuevo afiliado con la firma (Base64) y fotos subidas
+      // Convertir la firma base64 a imagen y guardarla en la ruta temporal
+      const base64Data = firma.replace(/^data:image\/png;base64,/, "");
+      fs.writeFileSync(tempFirmaPath, base64Data, "base64");
+
+      // Subir la imagen temporal a Cloudinary
+      const { secure_url } = await cloudinary.uploader.upload(tempFirmaPath);
+      firmaUrl = secure_url;
+
+      // Eliminar el archivo temporal después de la carga
+      fs.unlink(tempFirmaPath, (err) => {
+        if (err) console.log("Error al eliminar archivo temporal:", err);
+      });
+    } else {
+      console.log("No se recibió firma.");
+    }
+
+    // Guardar nuevo afiliado con la firma y fotos subidas
     const afiliado = new Afiliado({
       nombre,
       dni,
@@ -109,8 +129,8 @@ export const afiliadoPost = async (req, res = response) => {
       pais,
       provincia,
       departamento,
-      firma, // Firma enviada directamente en Base64
-      fotoDni: fotoDniUrl, // URL de la foto subida
+      firma: firmaUrl, // URL de la firma subida
+      fotoDni: fotoDniUrl, // URL de la foto del DNI subida
     });
 
     // Guardar en la base de datos

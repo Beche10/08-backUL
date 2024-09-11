@@ -37,6 +37,10 @@ export class Server {
     // Lectura y parseo del body
     this.app.use(express.json());
 
+    // Lectura y parseo del body con límite de tamaño aumentado
+    this.app.use(express.json({ limit: "10mb" }));
+    this.app.use(express.urlencoded({ limit: "10mb", extended: true }));
+
     // Directorio publico
     this.app.use(express.static("public"));
 
