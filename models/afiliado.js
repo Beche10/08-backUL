@@ -111,10 +111,16 @@ const AfiliadoSchema = new Schema({
     //required: [true, "La firma es requerida."],
   },
 
-  fotoDni: {
+  fotosDni: {
     type: [String], // Un arreglo de cadenas para almacenar múltiples rutas de archivos
-    message: "Debe subir al menos un archivo.",
+    validate: {
+      validator: function (v) {
+        return v && v.length > 0;
+      },
+      message: "Debe subir al menos un archivo.",
+    },
   },
 });
+  
 
 export const Afiliado = model("Afiliado", AfiliadoSchema);

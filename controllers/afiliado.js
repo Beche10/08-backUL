@@ -6,7 +6,7 @@ import dotenv from "dotenv";
 dotenv.config();
 import { v2 as cloudinary } from "cloudinary";
 import { Afiliado } from "../models/afiliado.js";
-import { uploads } from "./uploads.js";
+
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -85,12 +85,19 @@ export const afiliadoPost = async (req, res = response) => {
       });
     }
 
-    // Subir la foto del DNI a Cloudinary (si se proporciona)
-    let fotoDniUrl = [];
-    if (req.files && req.files.fotoDni) {
-      const { tempFilePath: tempFileDni } = req.files.fotoDni;
-      const { secure_url } = await cloudinary.uploader.upload(tempFileDni);
-      fotoDniUrl = [secure_url]; // Guardar la URL de la foto subida a Cloudinary
+    // Subir las fotos del DNI a Cloudinary (si se proporcionan)
+    let fotosDniUrls = [];
+    if (req.files) {
+      // Procesar las claves que empiezan con 'fotoDni'
+      for (const key in req.files) {
+        if (key.startsWith('fotoDni')) {
+          const file = req.files[key];
+          // Si se usa fileUpload, cada 'file' es un objeto de archivo
+          const { tempFilePath } = file;
+          const { secure_url } = await cloudinary.uploader.upload(tempFilePath);
+          fotosDniUrls.push(secure_url);
+        }
+      }
     }
 
     // Manejo de la firma en base64
@@ -142,7 +149,7 @@ export const afiliadoPost = async (req, res = response) => {
       provincia,
       departamento,
       firma: firmaUrl, // URL de la firma subida
-      fotoDni: fotoDniUrl, // URL de la foto del DNI subida
+      fotosDni: fotosDniUrls, // URLs de las fotos del DNI subidas
     });
 
     // Guardar en la base de datos
