@@ -1,4 +1,4 @@
-import { Consulta } from '../models/consultas.js';
+import { Consulta } from '../models/consulta.js';
 import { sendEmail } from '../services/mailService.js';
 
 

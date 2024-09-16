@@ -1,6 +1,6 @@
-import mongoose from "mongoose";
+import { Schema, model } from "mongoose";
 
-const ConsultaSchema = new mongoose.Schema({
+const ConsultaSchema = new Schema({
   nombre: {
     type: String,
     required: [true, "El nombre es obligatorio"],
