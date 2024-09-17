@@ -19,7 +19,7 @@ export const enviarConsulta = async (req, res) => {
 
     // 3. Enviar el correo al soporte
     await sendEmail(
-      "villevip10@hotmail.com", // Correo del equipo de soporte
+      "villevip10@gmail.com", // Correo del equipo de soporte
       "Nueva consulta de usuario",
       htmlContent
     );
