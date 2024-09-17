@@ -1,6 +1,5 @@
-import { Consulta } from '../models/consulta.js';
-import { sendEmail } from '../services/mailService.js';
-
+import { Consulta } from "../models/consulta.js";
+import { sendEmail } from "../services/mailService.js";
 
 // Controlador para manejar las consultas de los usuarios
 export const enviarConsulta = async (req, res) => {
@@ -20,19 +19,19 @@ export const enviarConsulta = async (req, res) => {
 
     // 3. Enviar el correo al soporte
     await sendEmail(
-      'soporte@tuempresa.com', // Correo del equipo de soporte
-      'Nueva consulta de usuario',
+      "villevip10@hotmail.com", // Correo del equipo de soporte
+      "Nueva consulta de usuario",
       htmlContent
     );
 
     // Responder al cliente que el proceso fue exitoso
     res.status(200).json({
-      msg: 'Consulta enviada y almacenada correctamente.',
+      msg: "Consulta enviada y almacenada correctamente.",
     });
   } catch (error) {
-    console.error('Error al enviar la consulta:', error);
+    console.error("Error al enviar la consulta:", error);
     res.status(500).json({
-      msg: 'Hubo un error al enviar la consulta.',
+      msg: "Hubo un error al enviar la consulta.",
       error,
     });
   }
