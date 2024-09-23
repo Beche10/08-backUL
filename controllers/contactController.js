@@ -36,3 +36,21 @@ export const enviarConsulta = async (req, res) => {
     });
   }
 };
+
+
+export const obtenerConsultas = async (req = request, res = response) => {
+  try {
+    const mensajes = await Consulta.find(); // Obtener todos los afiliados de la base de datos
+
+    res.json({
+      msg: "Lista de consultas",
+      mensajes,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      msg: "Error al obtener las consultas",
+      error,
+    });
+  }
+};
