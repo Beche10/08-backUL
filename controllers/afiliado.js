@@ -7,7 +7,6 @@ dotenv.config();
 import { v2 as cloudinary } from "cloudinary";
 import { Afiliado } from "../models/afiliado.js";
 
-
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
@@ -90,7 +89,7 @@ export const afiliadoPost = async (req, res = response) => {
     if (req.files) {
       // Procesar las claves que empiezan con 'fotoDni'
       for (const key in req.files) {
-        if (key.startsWith('fotoDni')) {
+        if (key.startsWith("fotoDni")) {
           const file = req.files[key];
           // Si se usa fileUpload, cada 'file' es un objeto de archivo
           const { tempFilePath } = file;
