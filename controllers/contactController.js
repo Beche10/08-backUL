@@ -39,12 +39,19 @@ export const enviarConsulta = async (req, res) => {
 
 
 export const obtenerConsultas = async (req = request, res = response) => {
+  const { limite = 4, desde = 0 } = req.query; // Paginación: límite y desde en la query string
+
   try {
-    const mensajes = await Consulta.find(); // Obtener todos los afiliados de la base de datos
+    const [total, mensajes] = await Promise.all([
+      Consulta.countDocuments(), // Total de mensajes
+      Consulta.find() // Obtener mensajes
+        .skip(Number(desde))
+        .limit(Number(limite)),
+    ]);
 
     res.json({
-      msg: "Lista de consultas",
-      mensajes,
+      total,
+      mensajes, // Lista paginada de mensajes
     });
   } catch (error) {
     console.error(error);
