@@ -37,14 +37,14 @@ export const enviarConsulta = async (req, res) => {
   }
 };
 
-
 export const obtenerConsultas = async (req = request, res = response) => {
   const { limite = 4, desde = 0 } = req.query; // Paginación: límite y desde en la query string
 
   try {
     const [total, mensajes] = await Promise.all([
       Consulta.countDocuments(), // Total de mensajes
-      Consulta.find() // Obtener mensajes
+      Consulta.find()
+        .sort({ fecha: -1 }) // Ordenar por fecha descendente
         .skip(Number(desde))
         .limit(Number(limite)),
     ]);
