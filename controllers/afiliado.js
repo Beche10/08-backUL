@@ -21,7 +21,7 @@ export const afiliadoGet = async (req = request, res = response) => {
     res.json({
       msg: "Afiliados de DB:",
       afiliados,
-      numAfiliados
+      numAfiliados,
     });
   } catch (error) {
     console.error(error);
