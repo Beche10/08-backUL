@@ -16,10 +16,12 @@ cloudinary.config({
 export const afiliadoGet = async (req = request, res = response) => {
   try {
     const afiliados = await Afiliado.find(); // Obtener todos los afiliados de la base de datos
+    const numAfiliados = await afiliados.countDocument();
 
     res.json({
       msg: "Afiliados de DB:",
       afiliados,
+      numAfiliados
     });
   } catch (error) {
     console.error(error);
