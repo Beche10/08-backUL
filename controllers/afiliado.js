@@ -14,14 +14,22 @@ cloudinary.config({
 });
 
 export const afiliadoGet = async (req = request, res = response) => {
+  const { limite = 5, desde = 0 } = req.query;
+  const query = { estado: true }; // Filtrar solo los afiliados activos
+
   try {
-    const afiliados = await Afiliado.find(); // Obtener todos los afiliados de la base de datos
-    const numAfiliados = await Afiliado.countDocuments();
+    const [total, afiliados] = await Promise.all([
+      Afiliado.countDocuments(), //total de afiliados
+      Afiliado.find()
+        .sort({ fecha: -1 }) // Ordenar por fecha descendente
+        .skip(Number(desde))
+        .limit(Number(limite)),
+    ]);
 
     res.json({
       msg: "Afiliados de DB:",
+      total,
       afiliados,
-      numAfiliados,
     });
   } catch (error) {
     console.error(error);
