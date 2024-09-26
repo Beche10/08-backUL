@@ -121,6 +121,11 @@ const AfiliadoSchema = new Schema({
       message: "Debe subir al menos un archivo.",
     },
   },
+  
+  fecha: {
+    type: Date,
+    default: Date.now,
+  },
 });
   
 
