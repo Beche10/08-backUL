@@ -1,5 +1,9 @@
 import { Router } from "express";
-import { afiliadoGet, afiliadoGetById, afiliadoPost } from "../controllers/afiliado.js";
+import {
+  afiliadoGet,
+  afiliadoGetById,
+  afiliadoPost,
+} from "../controllers/afiliado.js";
 
 export const afiliadoRouter = Router();
 
