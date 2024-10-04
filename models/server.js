@@ -62,7 +62,7 @@ export class Server {
   }
 
   routes() {
-    // Ruta de Autenticacion
+    // Ruta de autenticacion
     this.app.use(this.authPath, auth);
     // Ruta de afiliados
     this.app.use(this.afiliadosPath, afiliadoRouter);
