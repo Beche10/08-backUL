@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { exportAfiliadosToExcel } from "../controllers/export";
+import { exportAfiliadosToExcel } from "../controllers/export.js";
 
 
 export const exportToExcelRouter = Router();

@@ -1,66 +1,48 @@
+import { Afiliado } from "../models/afiliado.js" 
 import ExcelJS from "exceljs";
-import Afiliado from "./models/Afiliado"; // Importar tu modelo
+import path from "path";
 
-// Función para exportar los datos de Afiliados a Excel
 export const exportAfiliadosToExcel = async (req, res) => {
   try {
-    // Obtener todos los afiliados desde MongoDB
+    // Consulta de los afiliados en MongoDB
     const afiliados = await Afiliado.find();
 
-    // Crear un nuevo Workbook de Excel
+    // Crear un nuevo workbook de Excel
     const workbook = new ExcelJS.Workbook();
     const worksheet = workbook.addWorksheet("Afiliados");
 
-    // Añadir las columnas con los encabezados correspondientes
+    // Definir las columnas del archivo Excel
     worksheet.columns = [
-      { header: "Nombre", key: "nombre", width: 30 },
-      { header: "DNI", key: "dni", width: 20 },
-      { header: "Correo", key: "correo", width: 30 },
-      { header: "Fecha Nacimiento", key: "fechaNacimiento", width: 20 },
-      { header: "Domicilio", key: "domicilio", width: 40 },
-      { header: "Celular", key: "celular", width: 20 },
-      { header: "País", key: "pais", width: 20 },
-      { header: "Provincia", key: "provincia", width: 20 },
-      { header: "Departamento", key: "departamento", width: 20 },
+      { header: "Nombre", key: "nombre", width: 20 },
+      { header: "DNI", key: "dni", width: 15 },
+      { header: "Correo", key: "correo", width: 25 },
+      { header: "Fecha de Nacimiento", key: "fechaNacimiento", width: 20 },
+      { header: "Domicilio", key: "domicilio", width: 30 },
+      { header: "Celular", key: "celular", width: 15 },
+      { header: "País", key: "pais", width: 15 },
+      { header: "Provincia", key: "provincia", width: 15 },
+      { header: "Departamento", key: "departamento", width: 15 },
       { header: "Estado Civil", key: "estadoCivil", width: 15 },
-      { header: "Ocupación", key: "ocupacion", width: 20 },
-      { header: "Firma", key: "firma", width: 30 },
-      { header: "Fotos DNI", key: "fotosDni", width: 40 },
-      { header: "Fecha de Registro", key: "fecha", width: 20 },
+      { header: "Ocupación", key: "ocupacion", width: 15 },
+      { header: "Firma", key: "firma", width: 50 },
     ];
 
-    // Agregar las filas de los afiliados
+    // Agregar filas al worksheet
     afiliados.forEach((afiliado) => {
-      worksheet.addRow({
-        nombre: afiliado.nombre,
-        dni: afiliado.dni,
-        correo: afiliado.correo,
-        fechaNacimiento: afiliado.fechaNacimiento.toISOString().split("T")[0], // Formato de fecha YYYY-MM-DD
-        domicilio: afiliado.domicilio,
-        celular: afiliado.celular,
-        pais: afiliado.pais,
-        provincia: afiliado.provincia || "N/A", // Si es otro país, se deja en 'N/A'
-        departamento: afiliado.departamento || "N/A", // Si no aplica, se deja en 'N/A'
-        estadoCivil: afiliado.estadoCivil,
-        ocupacion: afiliado.ocupacion,
-        firma: afiliado.firma, // Asumiendo que es una URL o base64
-        fotosDni: afiliado.fotosDni.join(", "), // Unir múltiples fotos en una celda
-        fecha: afiliado.fecha.toISOString().split("T")[0], // Formato de fecha
-      });
+      worksheet.addRow(afiliado);
     });
 
-    // Configuración de la respuesta para enviar el archivo Excel
-    res.setHeader(
-      "Content-Type",
-      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-    );
-    res.setHeader("Content-Disposition", "attachment; filename=afiliados.xlsx");
+    // Escribir archivo en el sistema temporal o enviarlo directamente
+    const tempFilePath = path.join(__dirname, "../tmp/afiliados.xlsx");
+    await workbook.xlsx.writeFile(tempFilePath);
 
-    // Enviar el archivo al cliente
-    await workbook.xlsx.write(res);
-    res.end();
-  } catch (err) {
-    console.error("Error al exportar afiliados a Excel:", err);
-    res.status(500).send("Error al exportar los datos a Excel");
+    // Descargar archivo
+    res.download(tempFilePath, "afiliados.xlsx");
+
+  } catch (error) {
+    res.status(500).json({
+      msg: "Error al exportar los datos a Excel.",
+      error,
+    });
   }
 };
