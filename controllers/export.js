@@ -1,6 +1,6 @@
-import { Afiliado } from "../models/afiliado.js" 
-import ExcelJS from "exceljs";
 import path from "path";
+import ExcelJS from "exceljs";
+import { Afiliado } from "../models/afiliado.js";
 
 export const exportAfiliadosToExcel = async (req, res) => {
   try {
@@ -27,22 +27,27 @@ export const exportAfiliadosToExcel = async (req, res) => {
       { header: "Firma", key: "firma", width: 50 },
     ];
 
-    // Agregar filas al worksheet
-    afiliados.forEach((afiliado) => {
-      worksheet.addRow(afiliado);
-    });
+    worksheet.addRows(afiliados); // Suponiendo que 'afiliados' es un array de datos
 
-    // Escribir archivo en el sistema temporal o enviarlo directamente
-    const tempFilePath = path.join(__dirname, "../tmp/afiliados.xlsx");
-    await workbook.xlsx.writeFile(tempFilePath);
+    // Escribir el archivo en un buffer y enviarlo como respuesta
+    res.setHeader(
+      "Content-Type",
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    );
+    res.setHeader(
+      "Content-Disposition",
+      'attachment; filename="afiliados.xlsx"'
+    );
 
-    // Descargar archivo
-    res.download(tempFilePath, "afiliados.xlsx");
-
+    await workbook.xlsx.write(res);
+    res.end();
   } catch (error) {
-    res.status(500).json({
-      msg: "Error al exportar los datos a Excel.",
-      error,
-    });
+    console.error("Error al exportar los datos a Excel:", error); // Log detallado
+    res
+      .status(500)
+      .json({
+        msg: "Error al exportar los datos a Excel.",
+        error: error.message || error,
+      });
   }
 };
