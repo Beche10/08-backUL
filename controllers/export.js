@@ -13,6 +13,7 @@ export const exportAfiliadosToExcel = async (req, res) => {
 
     // Definir las columnas del archivo Excel
     worksheet.columns = [
+      { header: "Fecha", key: "fecha", width: 20 },
       { header: "Nombre", key: "nombre", width: 20 },
       { header: "DNI", key: "dni", width: 15 },
       { header: "Correo", key: "correo", width: 25 },
@@ -25,6 +26,7 @@ export const exportAfiliadosToExcel = async (req, res) => {
       { header: "Estado Civil", key: "estadoCivil", width: 15 },
       { header: "Ocupación", key: "ocupacion", width: 15 },
       { header: "Firma", key: "firma", width: 50 },
+      { header: "Documentación", key: "fotosDni", width: 50 },
     ];
 
     worksheet.addRows(afiliados); // Suponiendo que 'afiliados' es un array de datos
@@ -43,11 +45,9 @@ export const exportAfiliadosToExcel = async (req, res) => {
     res.end();
   } catch (error) {
     console.error("Error al exportar los datos a Excel:", error); // Log detallado
-    res
-      .status(500)
-      .json({
-        msg: "Error al exportar los datos a Excel.",
-        error: error.message || error,
-      });
+    res.status(500).json({
+      msg: "Error al exportar los datos a Excel.",
+      error: error.message || error,
+    });
   }
 };
