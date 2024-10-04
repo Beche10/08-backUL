@@ -6,11 +6,8 @@ import { afiliadoRouter } from "../routes/afiliado.js";
 import { uploadRouter } from "../routes/uploads.js";
 import { userRouter } from "../routes/usuario.js";
 import { auth } from "../routes/auth.js";
-import { consultaRouter } from '../routes/consulta.js';  // NUEVA IMPORTACIÓN
+import { consultaRouter } from "../routes/consulta.js"; // NUEVA IMPORTACIÓN
 import { exportToExcelRouter } from "../routes/export.js";
-
-
-
 
 export class Server {
   constructor() {
@@ -20,8 +17,8 @@ export class Server {
     this.usersPath = "/api/users";
     this.authPath = "/api/auth";
     this.uploadsPath = "/api/uploads";
-    this.consultaPath = '/api/consultas';  // NUEVA RUTA
-    this.exportToExcelPath = '/api/export'; // NUEVA RUTA
+    this.consultaPath = "/api/consultas"; // NUEVA RUTA
+    this.exportToExcelPath = "/api/export"; // NUEVA RUTA
 
     //Conectar a base de datos
     this.conectarDB();
@@ -71,7 +68,7 @@ export class Server {
     // Ruta de uploads
     this.app.use(this.uploadsPath, uploadRouter);
     // Ruta de consultas (Nueva)
-    this.app.use(this.consultaPath, consultaRouter);  // NUEVA RUTA
+    this.app.use(this.consultaPath, consultaRouter); // NUEVA RUTA
     // Ruta de export Excel (Nueva)
     this.app.use(this.exportToExcelPath, exportToExcelRouter); // NUEVA RUTA
   }
