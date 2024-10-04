@@ -7,6 +7,9 @@ import { uploadRouter } from "../routes/uploads.js";
 import { userRouter } from "../routes/usuario.js";
 import { auth } from "../routes/auth.js";
 import { consultaRouter } from '../routes/consulta.js';  // NUEVA IMPORTACIÓN
+import { exportToExcelRouter } from '../routes/export.js';
+
+
 
 export class Server {
   constructor() {
@@ -17,6 +20,7 @@ export class Server {
     this.authPath = "/api/auth";
     this.uploadsPath = "/api/uploads";
     this.consultaPath = '/api/consultas';  // NUEVA RUTA
+    this.exportToExcelRouter = '/api/export';
 
     //Conectar a base de datos
     this.conectarDB();
