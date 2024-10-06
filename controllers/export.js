@@ -1,4 +1,3 @@
-import path from "path";
 import ExcelJS from "exceljs";
 import { Afiliado } from "../models/afiliado.js";
 
@@ -9,18 +8,21 @@ export const exportAfiliadosToExcel = async (req, res) => {
 
     // Crear un nuevo workbook de Excel
     const workbook = new ExcelJS.Workbook();
-    const worksheet = workbook.addWorksheet("Afiliados");
+    const worksheet = workbook.addWorksheet("Listado de afiliados", {
+      views: [{ state: "frozen", ySplit: 1 }],
+      properties: { tabColor: { argb: "FFE1BEE7" } },
+    });
 
     // Definir las columnas del archivo Excel
     worksheet.columns = [
-      { header: "Fecha", key: "fecha", width: 20 },
+      { header: "Fecha", key: "fecha", width: 10 },
       { header: "Nombre", key: "nombre", width: 20 },
-      { header: "DNI", key: "dni", width: 15 },
-      { header: "Correo", key: "correo", width: 25 },
-      { header: "Fecha de Nacimiento", key: "fechaNacimiento", width: 20 },
+      { header: "DNI", key: "dni", width: 10 },
+      { header: "Correo", key: "correo", width: 30 },
+      { header: "FN", key: "fechaNacimiento", width: 10 },
       { header: "Domicilio", key: "domicilio", width: 30 },
       { header: "Celular", key: "celular", width: 15 },
-      { header: "País", key: "pais", width: 15 },
+      { header: "País", key: "pais", width: 5 },
       { header: "Provincia", key: "provincia", width: 15 },
       { header: "Departamento", key: "departamento", width: 15 },
       { header: "Estado Civil", key: "estadoCivil", width: 15 },
@@ -29,7 +31,24 @@ export const exportAfiliadosToExcel = async (req, res) => {
       { header: "Documentación", key: "fotosDni", width: 50 },
     ];
 
-    worksheet.addRows(afiliados); // Suponiendo que 'afiliados' es un array de datos
+    // Establecer estilos en encabezado
+    const headerStyles = {
+      font: { bold: true, size: 12, color: { argb: "ffffff" } },
+      fill: { type: "pattern", pattern: "solid", fgColor: { argb: "883EEA" } },
+    };
+    worksheet.getRow(1).eachCell((cell) => Object.assign(cell, headerStyles ))
+
+    // Añade fila de afiliados
+    worksheet.addRows(afiliados);
+
+    // Estilo para las filas de datos (alineación a la izquierda)
+    worksheet.eachRow((row, rowNumber) => {
+      if (rowNumber > 0) {
+        row.eachCell((cell) => {
+          cell.alignment = { horizontal: "left" }; // Alinear a la izquierda
+        });
+      }
+    });
 
     // Escribir el archivo en un buffer y enviarlo como respuesta
     res.setHeader(
@@ -38,13 +57,13 @@ export const exportAfiliadosToExcel = async (req, res) => {
     );
     res.setHeader(
       "Content-Disposition",
-      'attachment; filename="afiliados.xlsx"'
+      'attachment; filename="Listado de afiliados.xlsx"'
     );
 
     await workbook.xlsx.write(res);
     res.end();
   } catch (error) {
-    console.error("Error al exportar los datos a Excel:", error); // Log detallado
+    console.error("Error al exportar los datos a Excel:", error);
     res.status(500).json({
       msg: "Error al exportar los datos a Excel.",
       error: error.message || error,
