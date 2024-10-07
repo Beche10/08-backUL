@@ -14,10 +14,10 @@ export const exportAfiliadosToExcel = async (req, res) => {
     });
 
     worksheet.getRow(1).border = {
-      top: { style: "thick", color: { argb: "FFFF0000" } },
-      left: { style: "thick", color: { argb: "000000FF" } },
-      bottom: { style: "thick", color: { argb: "F08080" } },
-      right: { style: "thick", color: { argb: "FF00FF00" } },
+      top: { style: "thin", color: { argb: "FF9E9E9E" } }, // Bordes finos en la parte superior y laterales
+      left: { style: "thin", color: { argb: "FF9E9E9E" } },
+      bottom: { style: "medium", color: { argb: "FF7E57C2" } }, // Lila oscuro en el borde inferior
+      right: { style: "thin", color: { argb: "FF9E9E9E" } },
     };
 
     worksheet.getRow(1).fill = {
