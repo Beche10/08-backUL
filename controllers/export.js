@@ -30,7 +30,7 @@ export const exportAfiliadosToExcel = async (req, res) => {
     worksheet.getRow(1).font = {
       name: "Calibri",
       family: 4,
-      size: 16,
+      size: 12,
     };
 
     // Definir las columnas del archivo Excel
@@ -42,7 +42,7 @@ export const exportAfiliadosToExcel = async (req, res) => {
       { header: "FN", key: "fechaNacimiento", width: 10 },
       { header: "Domicilio", key: "domicilio", width: 30 },
       { header: "Celular", key: "celular", width: 15 },
-      { header: "País", key: "pais", width: 9 },
+      { header: "País", key: "pais", width: 6 },
       { header: "Provincia", key: "provincia", width: 15 },
       { header: "Departamento", key: "departamento", width: 15 },
       { header: "Estado Civil", key: "estadoCivil", width: 15 },
