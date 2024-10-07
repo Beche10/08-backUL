@@ -22,8 +22,8 @@ export const exportAfiliadosToExcel = async (req, res) => {
 
     worksheet.getRow(1).fill = {
       type: "pattern",
-      pattern: "darkHorizontal",
-      fgColor: { argb: "FFFF00" },
+      pattern: "solid", // Cambiado a 'solid' para eliminar las líneas
+      fgColor: { argb: "FFE1BEE7" }, // Color lila sólido inspirado en La Libertad Avanza
       bold: true,
     };
 
