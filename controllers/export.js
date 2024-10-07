@@ -42,7 +42,7 @@ export const exportAfiliadosToExcel = async (req, res) => {
       { header: "FN", key: "fechaNacimiento", width: 10 },
       { header: "Domicilio", key: "domicilio", width: 30 },
       { header: "Celular", key: "celular", width: 15 },
-      { header: "País", key: "pais", width: 5 },
+      { header: "País", key: "pais", width: 7 },
       { header: "Provincia", key: "provincia", width: 15 },
       { header: "Departamento", key: "departamento", width: 15 },
       { header: "Estado Civil", key: "estadoCivil", width: 15 },
