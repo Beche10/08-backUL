@@ -13,6 +13,13 @@ export const exportAfiliadosToExcel = async (req, res) => {
       properties: { tabColor: { argb: "FFE1BEE7" } },
     });
 
+    worksheet.getRow(1).border = {
+      top: { style: "thick", color: { argb: "FFFF0000" } },
+      left: { style: "thick", color: { argb: "000000FF" } },
+      bottom: { style: "thick", color: { argb: "F08080" } },
+      right: { style: "thick", color: { argb: "FF00FF00" } },
+    };
+
     // Definir las columnas del archivo Excel
     worksheet.columns = [
       { header: "Fecha", key: "fecha", width: 10 },
@@ -36,7 +43,7 @@ export const exportAfiliadosToExcel = async (req, res) => {
       font: { bold: true, size: 12, color: { argb: "ffffff" } },
       fill: { type: "pattern", pattern: "solid", fgColor: { argb: "883EEA" } },
     };
-    worksheet.getRow(1).eachCell((cell) => Object.assign(cell, headerStyles ))
+    worksheet.getRow(1).eachCell((cell) => Object.assign(cell, headerStyles));
 
     // Añade fila de afiliados
     worksheet.addRows(afiliados);
