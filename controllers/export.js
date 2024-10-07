@@ -42,7 +42,7 @@ export const exportAfiliadosToExcel = async (req, res) => {
       { header: "FN", key: "fechaNacimiento", width: 10 },
       { header: "Domicilio", key: "domicilio", width: 30 },
       { header: "Celular", key: "celular", width: 15 },
-      { header: "País", key: "pais", width: 7 },
+      { header: "País", key: "pais", width: 9 },
       { header: "Provincia", key: "provincia", width: 15 },
       { header: "Departamento", key: "departamento", width: 15 },
       { header: "Estado Civil", key: "estadoCivil", width: 15 },
@@ -50,18 +50,6 @@ export const exportAfiliadosToExcel = async (req, res) => {
       { header: "Firma", key: "firma", width: 50 },
       { header: "Documentación", key: "fotosDni", width: 50 },
     ];
-
-    // Añade fila de afiliados
-    worksheet.addRows(afiliados);
-
-    // Estilo para las filas de datos (alineación a la izquierda)
-    worksheet.eachRow((row, rowNumber) => {
-      if (rowNumber > 0) {
-        row.eachCell((cell) => {
-          cell.alignment = { horizontal: "left" }; // Alinear a la izquierda
-        });
-      }
-    });
 
     // Escribir el archivo en un buffer y enviarlo como respuesta
     res.setHeader(
