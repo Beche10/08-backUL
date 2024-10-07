@@ -51,6 +51,18 @@ export const exportAfiliadosToExcel = async (req, res) => {
       { header: "Documentación", key: "fotosDni", width: 50 },
     ];
 
+    // Añade fila de afiliados
+    worksheet.addRows(afiliados);
+
+    // Estilo para las filas de datos (alineación a la izquierda)
+    worksheet.eachRow((row, rowNumber) => {
+      if (rowNumber > 0) {
+        row.eachCell((cell) => {
+          cell.alignment = { horizontal: "left" }; // Alinear a la izquierda
+        });
+      }
+    });
+
     // Escribir el archivo en un buffer y enviarlo como respuesta
     res.setHeader(
       "Content-Type",
