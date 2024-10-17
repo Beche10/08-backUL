@@ -1,34 +1,27 @@
 import { Resend } from "resend";
 
-
-const resend = new Resend(API_KEY_RESEND); // Reemplaza con tu clave API de Resend
+const resend = new Resend(process.env.RESEND_API_KEY); // Asegúrate de configurar tu API key en las variables de entorno
 
 export const sendMailing = async (req, res) => {
+  const { to, subject, text, html } = req.body; // Recibir los datos del correo desde el cuerpo de la solicitud
+
   try {
-    const { to, subject, text } = req.body; // Captura los campos desde el body (enviados por el frontend)
-
-    // Verifica si los campos requeridos están presentes
-    if (!to || !subject || !text) {
-      return res.status(400).json({ error: "Todos los campos son obligatorios" });
-    }
-
-    // Envía el email a través de Resend
-    const { data, error } = await resend.emails.send({
-      from: "Acme <onboarding@resend.dev>",  // Aquí puedes personalizar el 'from'
-      to: [to], // Recibe el correo del destinatario
-      subject: subject,
-      html: `<p>${text}</p>`,  // El mensaje lo enviamos en formato HTML
+    // Enviar el correo electrónico utilizando Resend
+    const response = await resend.emails.send({
+      from: "tucorreo@tu-dominio.com", // Cambia esto por el remitente
+      to,
+      subject,
+      text, // Texto plano opcional
+      html, // Contenido HTML opcional para el correo
     });
 
-    // Si ocurre un error en el envío del correo
-    if (error) {
-      return res.status(400).json({ error: "Error al enviar el correo" });
-    }
-
     // Respuesta exitosa
-    res.status(200).json({ message: "Correo enviado exitosamente", data });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Error interno del servidor" });
+    res
+      .status(200)
+      .json({ message: "Correo enviado exitosamente", data: response });
+  } catch (error) {
+    // Manejo de errores
+    console.error("Error al enviar el correo:", error);
+    res.status(500).json({ message: "Error al enviar el correo", error });
   }
 };
