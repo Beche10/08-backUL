@@ -8,7 +8,7 @@ import { userRouter } from "../routes/usuario.js";
 import { auth } from "../routes/auth.js";
 import { consultaRouter } from "../routes/consulta.js";
 import { exportToExcelRouter } from "../routes/export.js";
-import { mailingRouter } from "../routes/mailing.js";
+
 
 export class Server {
   constructor() {
@@ -20,7 +20,7 @@ export class Server {
     this.uploadsPath = "/api/uploads";
     this.consultaPath = "/api/consultas"; // NUEVA RUTA
     this.exportToExcelPath = "/api/export"; // NUEVA RUTA
-    this.mailingPath = "/api/mailing"; // NUEVA RUTA
+    
 
     //Conectar a base de datos
     this.conectarDB();
@@ -73,8 +73,6 @@ export class Server {
     this.app.use(this.consultaPath, consultaRouter); // NUEVA RUTA
     // Ruta de export Excel (Nueva)
     this.app.use(this.exportToExcelPath, exportToExcelRouter); // NUEVA RUTA
-    // Ruta de mailing (nueva)
-    this.app.use(this.mailingPath, mailingRouter); // NUEVA RUTA
   }
 
   listen() {
