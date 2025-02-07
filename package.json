@@ -6,6 +6,9 @@
   "type": "module",
   "author": "Augusto Villegas",
   "license": "MIT",
+  "scripts": {
+    "start": "node index.js"
+  },
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "cloudinary": "^2.4.0",
