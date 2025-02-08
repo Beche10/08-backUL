@@ -2,7 +2,7 @@ import { Router } from "express";
 import { check } from "express-validator";
 import { handleValidate } from "../middlewares/handleValidate.js";
 import { validateJWT } from "../middlewares/validateJWT.js";
-import { isAdminRole, multiRole } from "../middlewares/validateRole.js";
+import { isAdminRole, multiRole } from "../middlewares/validateROLE.js";
 import {
   emailExist,
   isRoleValid,
